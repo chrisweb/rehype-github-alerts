@@ -1,0 +1,15 @@
+# logs
+logs
+*.log
+
+# dependency
+node_modules/
+
+# typeScript cache
+*.tsbuildinfo
+
+# npm cache
+.npm
+
+# eslint cache
+.eslintcache

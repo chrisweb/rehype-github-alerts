@@ -1,0 +1,26 @@
+{
+    "include": [
+        "./src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ],
+    "compilerOptions": {
+        "exactOptionalPropertyTypes": true,
+        "forceConsistentCasingInFileNames": true,
+        "lib": [
+            "DOM",
+            "ES2022"
+        ],
+        "module": "NodeNext",
+        "esModuleInterop": true,
+        "strict": true,
+        "target":"ES2022",
+        "jsx": "preserve",
+        "outDir": "./dist",
+        "moduleResolution": "nodenext",
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true
+    }
+}

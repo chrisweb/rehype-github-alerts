@@ -1,0 +1,22 @@
+{
+    "name": "simple-markdown-example",
+    "version": "0.1.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "author": "chrisweb (https://chris.lu)",
+    "license": "MIT",
+    "dependencies": {
+        "unified": "11.0.4",
+        "remark-parse": "11.0.0",
+        "remark-rehype": "11.0.0",
+        "rehype-document": "7.0.2",
+        "rehype-format": "5.0.0",
+        "rehype-stringify": "10.0.0",
+        "to-vfile": "8.0.0",
+        "vfile-reporter": "8.1.0"
+    }
+}
