@@ -27,6 +27,10 @@ all options have default values which for most use cases should be enough, meani
 
 * `mdx` (`boolean`, default: true) 
 
+## ICONS
+
+the 3 icons used in this package are from [Codicons repository](https://github.com/microsoft/vscode-codicons) and licensed under [Creative Commons Attribution 4.0 International](https://github.com/microsoft/vscode-codicons/blob/main/LICENSE)
+
 ## TODOs
 
 ## BUGS
