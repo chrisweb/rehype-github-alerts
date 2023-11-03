@@ -1,21 +1,24 @@
 # rehype-github-alerts test
 
 > [!NOTE]  
-> Highlights information that users should take into account, even when skimming.  
+> this is an example "note" (with two spaces after "[!NOTE]")
 
 > [!IMPORTANT]
-> Crucial information necessary for users to succeed.
+> this is an example "important" (with no spaces after "[!IMPORTANT]")
 
 > [!WARNING]  
-> Critical content demanding immediate user attention due to potential risks.  
+> this is an example "warning" with a second line of content, containing a "strong" element and a link
 > **foo** [top](#rehype-github-alerts-test)
 
 > [!WARNING]  
 >> [!IMPORTANT]  
->> Crucial information necessary for users to succeed.
+>> test for nested alerts
 
 > **NOTE**
-> Nested blockquotes eliminate the nesting and render an alert
+> test for legacy alerts
 
->>> [!NOTE]
->>> Nested blockquotes eliminate the nesting and render an alert
+>>> [!NOTE]  
+>>> test for nested blockquotes
+
+> [!INVALID]
+> test for invalid alert type

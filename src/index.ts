@@ -61,22 +61,27 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
         return [SKIP]
     }
 
-    console.log('###########################')
-    console.log('###########################')
-    console.log('node: ', node)
-    console.log('index: ', index)
-    console.log('parent: ', parent)
+    if (!node.children || !internalOptions) {
+        return null
+    }
 
+    const alertParagraph = node.children.find((child) => {
+        return (isElement(child) && child.tagName === 'p')
+    })
 
-    const alertOptions = getAlertOptions(node)
+    if (!isElement(alertParagraph)) {
+        return null
+    }
 
-    console.log('alertOptions: ', alertOptions)
+    const alertOptions = getAlertOptions(alertParagraph)
+
+    console.log('###############')
+
+    //console.log('alertOptions: ', alertOptions)
 
     if (alertOptions === null) {
         return [SKIP]
     }
-
-
 
     if (typeof parent !== 'undefined' && typeof index !== 'undefined') {
 
@@ -86,10 +91,20 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
 
         //console.log('alertElement: ', alertElement)
 
-        //console.log('node.children: ', node.children)
-        //console.log('alertElement.children [BEFORE]: ', alertElement.children)
+        if (!isElement(alertElement.children[0])) {
+            return [SKIP]
+        }
 
-        alertElement.children = node.children
+        const alertElementParagraph = alertElement.children[0]
+
+        //console.log('alertElementParagraph: ', alertElementParagraph)
+
+        console.log('node.children: ', node.children)
+        console.log('alertElementParagraph.children [BEFORE]: ', alertElementParagraph.children)
+
+        const alertParagraphChildren = alertParagraph.children
+
+        alertElementParagraph.children.concat(alertParagraphChildren)
 
         //console.log('alertElement.children [AFTER]: ', alertElement.children)
         //console.log('parent.children[index] [BEFORE]: ', parent.children[index])
@@ -105,13 +120,11 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
 
 }
 
-const getAlertOptions = (node: Element): IAlert | null => {
+const getAlertOptions = (alertParagraph: Element): IAlert | null => {
 
-    if (!node.children || !internalOptions) {
+    /*if (!node.children || !internalOptions) {
         return null
     }
-
-    //console.log('internalOptions.supportLegacy: ', internalOptions.supportLegacy)
 
     const alertParagraph = node.children.find((child) => {
         return (isElement(child) && child.tagName === 'p')
@@ -119,7 +132,7 @@ const getAlertOptions = (node: Element): IAlert | null => {
 
     if (!isElement(alertParagraph)) {
         return null
-    }
+    }*/
 
     const alertParagraphFirstChild = alertParagraph.children[0]
     let paragraphValue: string | undefined
@@ -133,34 +146,23 @@ const getAlertOptions = (node: Element): IAlert | null => {
     }
 
     if (alertParagraphFirstChild.type === 'text') {
-        paragraphValue = alertParagraphFirstChild.value.replace('[!', '').replace(']', '')
+        const match = alertParagraphFirstChild.value.match(/\[!(.*?)\]/)
+        if (match !== null) {
+            paragraphValue = match[1]
+        }
     }
-
-    console.log('paragraphValue: ', paragraphValue)
-
 
     if (typeof paragraphValue === 'undefined') {
         return null
     }
 
-    console.log('typeof paragraphValue: ', typeof paragraphValue)
-    console.log('paragraphValue.length: ', paragraphValue.length)
-
-
     const alertOptions = internalOptions.alerts.find((alert) => {
-        console.log('paragraphValue === alert.keyword: ', paragraphValue === alert.keyword)
         return paragraphValue === alert.keyword
     })
 
     return alertOptions ? alertOptions : null
 
 }
-
-/*const getAlertChildren = (node: Element): ElementContent[] => {
-
-
-
-}*/
 
 export const defaultBuild: DefaultBuildType = (alertOptions) => {
 
