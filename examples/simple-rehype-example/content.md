@@ -17,7 +17,7 @@
 > **NOTE**
 > test for legacy alerts
 
->>> [!NOTE]  
+>>> [!NOTE]
 >>> test for nested blockquotes
 
 > [!INVALID]
