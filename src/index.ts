@@ -1,7 +1,7 @@
 import { SKIP, visit } from 'unist-util-visit'
 import { isElement } from 'hast-util-is-element'
 import type { Root, Element, ElementContent, Parent } from 'hast'
-import { fromHtmlIsomorphic } from 'hast-util-from-html-isomorphic'
+import { fromHtml } from 'hast-util-from-html'
 
 export interface IAlert {
     keyword: string
@@ -10,7 +10,7 @@ export interface IAlert {
     title: string
 }
 
-export type DefaultBuildType = (alertOptions: IAlert, originalChildren: ElementContent[]) => ElementContent
+export type DefaultBuildType = (alertOptions: IAlert, originalChildren: ElementContent[]) => ElementContent | null
 
 export interface IOptions {
     alerts: IAlert[]
@@ -91,10 +91,6 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
     // try to find options matching the alert keyword
     const alertOptions = getAlertOptions(alertParagraph)
 
-    console.log('###############')
-
-    //console.log('alertOptions: ', alertOptions)
-
     if (alertOptions === null) {
         return [SKIP]
     }
@@ -104,7 +100,13 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
         // convert the blockquote into an alert
         const build = internalOptions.build || defaultBuild
 
-        build(alertOptions, alertParagraph.children)
+        const alertElement = build(alertOptions, alertParagraph.children)
+
+        // replace the original blockquote with the 
+        // new alert element and its children
+        if (alertElement !== null) {
+            parent.children[index] = alertElement
+        }
 
     }
 
@@ -125,29 +127,7 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
  */
 export const defaultBuild: DefaultBuildType = (alertOptions, originalChildren) => {
 
-    console.log(originalChildren)
-
-
-    /*const alertElementParagraph = alertElement.children[0]
-
-    //console.log('alertElementParagraph: ', alertElementParagraph)
-
-    console.log('node.children: ', node.children)
-    console.log('alertElementParagraph.children [BEFORE]: ', alertElementParagraph.children)
-
-    const alertParagraphChildren = alertParagraph.children
-
-    alertElementParagraph.children.concat(alertParagraphChildren)
-
-    //console.log('alertElement.children [AFTER]: ', alertElement.children)
-    //console.log('parent.children[index] [BEFORE]: ', parent.children[index])
-
-    // we replace the blockquote element with our custom alert div
-    parent.children[index] = alertElement
-
-    //console.log('parent.children[index] [AFTER]: ', parent.children[index])*/
-
-    let alertIconElement: Root | Element
+    let alertIconElement: Element | undefined
 
     if (isElement(alertOptions.icon)) {
         // if an element got passed to the options for the icon
@@ -156,10 +136,23 @@ export const defaultBuild: DefaultBuildType = (alertOptions, originalChildren) =
     } else {
         // if a string got passed to the options for the icon
         // first convert it to an element
-        alertIconElement = fromHtmlIsomorphic(
+        const alertIcon = fromHtml(
             alertOptions.icon,
             { fragment: true }
-        )
+        ).children[0]
+
+        if (isElement(alertIcon)) {
+            alertIconElement = alertIcon
+        }
+    }
+
+    if (typeof alertIconElement === 'undefined') {
+        return null
+    }
+
+    const titleElementContent: ElementContent = {
+        type: 'text',
+        value: alertOptions.title
     }
 
     const alert: ElementContent = {
@@ -187,7 +180,7 @@ export const defaultBuild: DefaultBuildType = (alertOptions, originalChildren) =
                     },
                     children: [
                         alertIconElement,
-                        alertOptions.title
+                        titleElementContent
                     ]
                 },
                 {
@@ -196,7 +189,7 @@ export const defaultBuild: DefaultBuildType = (alertOptions, originalChildren) =
                     properties: {},
                     children: []
                 },
-                
+                ...originalChildren
             ]
         }]
     }
