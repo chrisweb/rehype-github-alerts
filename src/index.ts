@@ -79,17 +79,24 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
     }
 
     // find the paragraph inside of the blockquote
-    const alertParagraph = node.children.find((child) => {
+    const blockquoteParagraph = node.children.find((child) => {
         return (isElement(child) && child.tagName === 'p')
     })
 
-    // check if we found an alert paragraph
-    if (!isElement(alertParagraph)) {
+    // check if we found an the blockquote paragraph
+    if (!isElement(blockquoteParagraph)) {
         return null
     }
 
+    // try to find the alert type
+    const headerData = extractHeaderData(blockquoteParagraph)
+
+    if (headerData === null) {
+        return [SKIP]
+    }
+
     // try to find options matching the alert keyword
-    const alertOptions = getAlertOptions(alertParagraph)
+    const alertOptions = getAlertOptions(headerData.alertType)
 
     if (alertOptions === null) {
         return [SKIP]
@@ -100,7 +107,28 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
         // convert the blockquote into an alert
         const build = internalOptions.build || defaultBuild
 
-        const alertElement = build(alertOptions, alertParagraph.children)
+        console.log('blockquoteParagraph.children: ', blockquoteParagraph.children)
+
+        let originalChildren: ElementContent[]
+
+        if (typeof headerData.rest === 'undefined') {
+            // all original elements except the first two
+            // first two = title text + <br> element
+            originalChildren = blockquoteParagraph.children.slice(2, blockquoteParagraph.children.length)
+        } else {
+            const childrenWithoutRest = blockquoteParagraph.children.slice(1, blockquoteParagraph.children.length)
+            const restElementContent: ElementContent[] = [
+                {
+                    type: 'text',
+                    value: headerData.rest,
+                },
+            ]
+            originalChildren = restElementContent.concat(childrenWithoutRest)
+        }
+
+        console.log('originalChildren: ', originalChildren)
+
+        const alertElement = build(alertOptions, originalChildren)
 
         // replace the original blockquote with the 
         // new alert element and its children
@@ -198,32 +226,56 @@ export const defaultBuild: DefaultBuildType = (alertOptions, originalChildren) =
 
 }
 
-const getAlertOptions = (alertParagraph: Element): IAlert | null => {
+const extractHeaderData = (paragraph: Element): { alertType: string, rest: string } | null => {
 
-    const alertParagraphFirstChild = alertParagraph.children[0]
-    let paragraphValue: string | undefined
+    const header = paragraph.children[0]
+    let alertType: string | undefined
+    let rest: string = ''
 
     if (internalOptions.supportLegacy) {
-        if (alertParagraphFirstChild.type === 'element' && alertParagraphFirstChild.tagName === 'strong') {
-            if (alertParagraphFirstChild.children[0].type === 'text') {
-                paragraphValue = alertParagraphFirstChild.children[0].value
+
+        if (header.type === 'element' && header.tagName === 'strong') {
+
+            if (header.children[0].type === 'text') {
+                alertType = header.children[0].value
             }
+
         }
+
     }
 
-    if (alertParagraphFirstChild.type === 'text') {
-        const match = alertParagraphFirstChild.value.match(/\[!(.*?)\]/)
-        if (match !== null) {
-            paragraphValue = match[1]
+    if (header.type === 'text') {
+
+        const match = header.value.match(/\[!(.*?)\]/)
+
+        if (match === null || typeof match.input === 'undefined') {
+            return null
         }
+
+        if (match[0].length > match.input.length) {
+            // if in markdown there are no two spaces at the end
+            // then in html there will be no line break
+            // meaning the 1st and 2nd line will be one
+            // TODO: I wonder if there is a better way to handle this?
+            rest = match.input.replace(match[0], '').replace(/(\r\n|\n|\r)/gm, '')
+        }
+
+        alertType = match[1]
+
     }
 
-    if (typeof paragraphValue === 'undefined') {
+    if (typeof alertType === 'undefined') {
         return null
     }
 
+    return { alertType, rest }
+
+}
+
+const getAlertOptions = (alertType: string): IAlert | null => {
+
     const alertOptions = internalOptions.alerts.find((alert) => {
-        return paragraphValue === alert.keyword
+        return alertType === alert.keyword
     })
 
     return alertOptions ? alertOptions : null

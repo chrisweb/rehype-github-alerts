@@ -4,10 +4,14 @@
 > this is an example "note" (with two spaces after "[!NOTE]")
 
 > [!IMPORTANT]
-> this is an example "important" (with no spaces after "[!IMPORTANT]")
+> this is an example "important" (with NO spaces after "[!IMPORTANT]")
 
-> [!WARNING]  
-> this is an example "warning" with a second line of content, containing a "strong" element and a link
+> [!NOTE]  
+> this is an example "note" (with two spaces after "[!NOTE]") and a second line of content, containing a "strong" element and a link
+> **foo** [top](#rehype-github-alerts-test)
+
+> [!IMPORTANT]
+> this is an example "important" (with NO spaces after "[!IMPORTANT]") and a second line of content, containing a "strong" element and a link
 > **foo** [top](#rehype-github-alerts-test)
 
 > [!WARNING]  
@@ -16,6 +20,10 @@
 
 > **NOTE**
 > test for legacy alerts
+
+> **NOTE**
+> test for legacy alerts with second line
+> **foo** [top](#rehype-github-alerts-test)
 
 >>> [!NOTE]
 >>> test for nested blockquotes
