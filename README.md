@@ -33,9 +33,9 @@ if you use this package, there are other packages you might want to install too,
 
 I created [an issue on github](https://github.com/chrisweb/rehype-github-alerts/issues/1) to check how github is rendering alerts
 
-### remark example
+### rehype example
 
-check out the [readme of the remark example](./examples/simple-rehype-example/README.md) for more details about this example, all the source code is located in `examples/simple-rehype-example/`
+check out the [readme of the rehype example](./examples/simple-rehype-example/README.md) for more details about this example, all the source code is located in `examples/simple-rehype-example/`
 
 ## options
 
