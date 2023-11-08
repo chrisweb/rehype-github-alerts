@@ -3,9 +3,9 @@
 
 # rehype-github-alerts
 
-rehype plugin to create alerts (admonitions/callouts), compatible with alerts used by github
+rehype plugin to create alerts (admonitions/callouts), mimicking the way alerts get rendered on github.com
 
-this is a zero configuration package as all [options](#options) have defaults, but you can use them if you wish to modify default behavior, like for example by default 
+this is a zero configuration package as all [options](#options) have defaults, but you can use them if you wish to modify default behavior, like for example by default 3 alerts are defined with a default icon and color, use `options.alerts` to replace them with your own setup
 
 ## installation
 
@@ -15,9 +15,11 @@ npm i rehype-github-alerts --save-exact
 
 ## examples
 
+I created [an issue on github](https://github.com/chrisweb/rehype-github-alerts/issues/1) to check how github is rendering alerts
+
 ### remark example
 
-
+check out the [readme of the remark example](./examples/simple-remark-example/README.md) for more details about this example, all the source code is located in `examples/simple-remark-example/`
 
 ## options
 
@@ -25,13 +27,17 @@ npm i rehype-github-alerts --save-exact
 
 all options have default values which for most use cases should be enough, meaning there is zero configuration to do, unless you want to customize something
 
-* `mdx` (`boolean`, default: true) 
+- `alerts` (`IAlert[]`) 
+- `supportLegacy` (`boolean`, default: true)
+- `build` (`DefaultBuildType`)
 
 ## ICONS
 
 the 3 icons used in this package are from [Codicons repository](https://github.com/microsoft/vscode-codicons) and licensed under [Creative Commons Attribution 4.0 International](https://github.com/microsoft/vscode-codicons/blob/main/LICENSE)
 
 ## TODOs
+
+- write tests
 
 ## BUGS
 
