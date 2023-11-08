@@ -1,8 +1,7 @@
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
+import remarkBreaks from 'remark-breaks'
 import remarkRehype from 'remark-rehype'
-//import rehypeDocument from 'rehype-document'
-//import rehypeFormat from 'rehype-format'
 import rehypeStringify from 'rehype-stringify'
 import { read } from 'to-vfile'
 import { reporter } from 'vfile-reporter'
@@ -12,6 +11,7 @@ const start = async () => {
 
     const file = await unified()
         .use(remarkParse)
+        .use(remarkBreaks)
         .use(remarkRehype)
         .use(rehypeGithubAlerts)
         .use(rehypeStringify)
