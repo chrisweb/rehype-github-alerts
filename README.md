@@ -35,7 +35,7 @@ I created [an issue on github](https://github.com/chrisweb/rehype-github-alerts/
 
 ### remark example
 
-check out the [readme of the remark example](./examples/simple-remark-example/README.md) for more details about this example, all the source code is located in `examples/simple-remark-example/`
+check out the [readme of the remark example](./examples/simple-rehype-example/README.md) for more details about this example, all the source code is located in `examples/simple-rehype-example/`
 
 ## options
 
