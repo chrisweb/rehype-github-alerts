@@ -3,7 +3,16 @@
 
 # rehype-github-alerts
 
-rehype plugin to create alerts (admonitions/callouts), mimicking the way alerts get rendered on github.com
+rehype plugin to create alerts (admonitions/callouts), mimicking the way alerts get rendered on github.com, currently three types of alerts are supported:
+
+> [!NOTE]  
+> I'm a note :wave:
+
+> [!IMPORTANT]  
+> I'm important
+
+> [!WARNING]  
+> I'm a warning
 
 this is a zero configuration package as all [options](#options) have defaults, but you can use them if you wish to modify default behavior, like for example by default 3 alerts are defined with a default icon and color, use `options.alerts` to replace them with your own setup
 
@@ -12,6 +21,13 @@ this is a zero configuration package as all [options](#options) have defaults, b
 ```shell
 npm i rehype-github-alerts --save-exact
 ```
+
+### optional packages
+
+if you use this package, there are other packages you might want to install too, for examle:
+
+- [remark-gfm](https://github.com/remarkjs/remark-gfm), adds support for [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/) (autolink literals, footnotes, strikethrough, tables, tasklists)
+- [remark-breaks](https://github.com/remarkjs/remark-breaks), turns soft line endings (enters) into hard breaks (`<br>`s). GitHub does this in a few places (comments, issues, PRs, and releases)
 
 ## examples
 
