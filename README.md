@@ -47,7 +47,26 @@ all options have default values which for most use cases should be enough, meani
 - `supportLegacy` (`boolean`, default: true)
 - `build` (`DefaultBuildType`)
 
-## ICONS
+### types
+
+If you use typescript and intend to edit the options, for example to create custom alerts, then you may want to import the types used by this library:
+
+```ts
+import { rehypeGithubAlerts, IOptions } from 'rehype-github-alerts'
+
+const myOptions: IOptions = {
+    alerts: [
+        {
+            keyword: 'MY_ALERT',
+            icon: '<svg width="16" height="16" viewBox="0 0 16 16"/></svg>',
+            color: 'rgb(255, 255, 255)',
+            title: 'My Alert',
+        },
+    ],
+}
+```
+
+## icons
 
 the 3 icons used in this package are from [Codicons repository](https://github.com/microsoft/vscode-codicons) and licensed under [Creative Commons Attribution 4.0 International](https://github.com/microsoft/vscode-codicons/blob/main/LICENSE)
 
@@ -55,7 +74,7 @@ the 3 icons used in this package are from [Codicons repository](https://github.c
 
 - write tests
 
-## BUGS
+## bugs
 
 if you find a bug, please open an issue in the [rehype-github-alerts issues page on github](https://github.com/chrisweb/rehype-github-alerts/issues), try to describe the bug you encountered as best as you can and if possible add some examples of the markdown / mdx content or code that you used when you found the bug, I or a contributor will try to look into it asap
 
