@@ -4,7 +4,7 @@ Hello developer, please have a quick look at this contributing guide before star
 
 if you wish to contribute to this project, please first open a [ticket in the github issues page of this project](https://github.com/chrisweb/rehype-github-alerts/issues) and explain briefly what fix or improvement you want to provide (remember the github ticket number you will need it for the commit message later on)
 
-go the [github page of this project](https://github.com/chrisweb/rehype-github-alerts) and hit the fork button  
+go to the [github page of this project](https://github.com/chrisweb/rehype-github-alerts) and hit the fork button  
 
 clone your fork so that you can edit the code in your local IDE (VSCode):  
 
