@@ -22,9 +22,6 @@ let internalOptions: IOptions
 
 export const rehypeGithubAlerts = (options: IOptions) => {
 
-    //console.log('options: ', options)
-    //console.log('tree: ', tree)
-
     const defaultOptions: IOptions = {
         // icons license: https://github.com/microsoft/vscode-codicons/blob/main/LICENSE
         alerts: [
@@ -107,26 +104,17 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
         // convert the blockquote into an alert
         const build = internalOptions.build || defaultBuild
 
-        console.log('blockquoteParagraph.children: ', blockquoteParagraph.children)
+        // if in markdown if you put two spaces after the alert type
+        // or if you use the plugin remark-breaks (turns line breaks into BRs)
+        // then the resulting html alert blockquote will consist of a line of text
+        // which contains the alert type, followed by an html line break element
+        const originalChildren = blockquoteParagraph.children.slice(2, blockquoteParagraph.children.length)
 
-        let originalChildren: ElementContent[]
-
-        if (typeof headerData.rest === 'undefined') {
-            // all original elements except the first two
-            // first two = title text + <br> element
-            originalChildren = blockquoteParagraph.children.slice(2, blockquoteParagraph.children.length)
-        } else {
-            const childrenWithoutRest = blockquoteParagraph.children.slice(1, blockquoteParagraph.children.length)
-            const restElementContent: ElementContent[] = [
-                {
-                    type: 'text',
-                    value: headerData.rest,
-                },
-            ]
-            originalChildren = restElementContent.concat(childrenWithoutRest)
+        // if there is no line break after the alert type
+        // then rest may contain some text
+        if (headerData.rest.length > 0) {
+            originalChildren.unshift({ type: 'text', value: headerData.rest })
         }
-
-        console.log('originalChildren: ', originalChildren)
 
         const alertElement = build(alertOptions, originalChildren)
 
@@ -252,12 +240,12 @@ const extractHeaderData = (paragraph: Element): { alertType: string, rest: strin
             return null
         }
 
-        if (match[0].length > match.input.length) {
+        if (match.input.length > match[0].length) {
             // if in markdown there are no two spaces at the end
             // then in html there will be no line break
-            // meaning the 1st and 2nd line will be one
-            // TODO: I wonder if there is a better way to handle this?
-            rest = match.input.replace(match[0], '').replace(/(\r\n|\n|\r)/gm, '')
+            // this means in the first line there will be more
+            // content than just the alert type
+            rest = match.input.replace(match[0], '')
         }
 
         alertType = match[1]
