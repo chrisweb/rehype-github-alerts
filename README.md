@@ -14,6 +14,19 @@ rehype plugin to create alerts (admonitions/callouts), mimicking the way alerts 
 > [!WARNING]  
 > I'm a warning
 
+the markdown syntax for the 3 examples above is as follows:
+
+```md
+> [!NOTE]  
+> I'm a note :wave:
+
+> [!IMPORTANT]  
+> I'm important
+
+> [!WARNING]  
+> I'm a warning
+```
+
 this is a zero configuration package as all [options](#options) have defaults, but you can use them if you wish to modify default behavior, like for example by default 3 alerts are defined with a default icon and color, use `options.alerts` to replace them with your own setup
 
 ## installation
@@ -49,7 +62,7 @@ all options have default values which for most use cases should be enough, meani
 
 ### types
 
-If you use typescript and intend to edit the options, for example to create custom alerts, then you may want to import the types used by this library:
+If you use typescript and intend to edit the options, for example to create custom alerts, then you may want to use the types provided by this library:
 
 ```ts
 import { rehypeGithubAlerts, IOptions } from 'rehype-github-alerts'
@@ -65,6 +78,106 @@ const myOptions: IOptions = {
     ],
 }
 ```
+
+If your configuration file is written in javascript, then you can use the types likes this:
+
+on top of your file add this jsdoc **typedef** at the beginning of the file:
+
+```js
+/**
+ * @typedef {import('rehype-github-alerts').IOptions} IOptions
+ */
+```
+
+and then in your code use the rehype-github-alerts type by placing a jsdoc @type tag over the options, like so:
+
+```js
+/** @type { IOptions } */
+const rehypeGithubAlertsOptions = {
+    supportLegacy: false,
+}
+```
+
+<details>
+    <summary>here is a full example of a next.js next.config.mjs configuration file</summary>
+
+```mjs
+/**
+ * @typedef {import('rehype-github-alerts').IOptions} IOptions
+ */
+
+import WithMDX from '@next/mdx'
+import remarkBreaks from 'remark-breaks'
+import remarkGfm from 'remark-gfm'
+import { rehypeGithubAlerts }  from 'rehype-github-alerts'
+
+const nextConfig = (/*phase*/) => {
+
+    // https://github.com/remarkjs/remark-gfm
+    // If you use remark-gfm, you'll need to use next.config.mjs
+    // as the package is ESM only
+    const remarkGfmOptions = {
+        singleTilde: false,
+    }
+
+    // https://github.com/chrisweb/rehype-github-alerts
+    /** @type { IOptions } */
+    const rehypeGithubAlertsOptions = {
+        supportLegacy: false,
+    }
+
+    const withMDX = WithMDX({
+        extension: /\.mdx?$/,
+        options: {
+            remarkPlugins: [remarkBreaks, [remarkGfm, remarkGfmOptions]],
+            rehypePlugins: [[rehypeGithubAlerts, rehypeGithubAlertsOptions]],
+        },
+    })
+
+    /** @type {import('next').NextConfig} */
+    const nextConfig = {
+        experimental: {
+            // experimental use rust compiler for MDX
+            // as of now (07.10.2023) there is no support for rehype plugins
+            // this is why it is currently disabled
+            mdxRs: false,
+        },
+        // configure pageExtensions to include md and mdx
+        pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
+    }
+
+    return withMDX(nextConfig)
+
+}
+
+export default nextConfig
+```
+
+</details>
+
+## legacy syntax
+
+the legacy syntax is supported by this plugin
+
+> [!NOTE]
+> it is by default turned on because as of now github has the legacy support turned on too, if some day they decide to switch it off by default then I will update this package to do the same
+
+legacy markdown (mdx) syntax:
+
+```md
+> **!NOTE**  
+> I'm a note :wave:
+
+> **!IMPORTANT**  
+> I'm important
+
+> **!WARNING**  
+> I'm a warning
+```
+
+you can turn off legacy support via the options like so:
+
+
 
 ## icons
 
