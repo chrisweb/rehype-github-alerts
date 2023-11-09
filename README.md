@@ -80,7 +80,7 @@ if you find a bug, please open an issue in the [rehype-github-alerts issues page
 
 ## Feedback
 
-If you have an idea to improve this project please use the 
+If you have an idea to improve this project please use the ["NEW Feature Request"](https://github.com/chrisweb/rehype-github-alerts/issues/new/choose) issue template or if you have any feedback about this package you may want to post it in the [rehype discussion about this plugin](https://github.com/orgs/rehypejs/discussions/157)
 
 ## contributing
 
