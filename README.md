@@ -60,6 +60,18 @@ all options have default values which for most use cases should be enough, meani
 - `supportLegacy` (`boolean`, default: true)
 - `build` (`DefaultBuildType`)
 
+## about "soft line breaks" support
+
+as noted in the readme of the [remark-breaks](https://github.com/remarkjs/remark-breaks) package:
+
+> remark-breaks turns enters into `<br>`s
+> GitHub does this in a few places (comments, issues, PRs, and releases)
+
+this is why the **rehype-github-alerts** plugin doesn't turn soft line breaks into hard line breaks out of the box
+
+so if you want to mimick githubs way of handling soft line breaks, then I recommend you install the [remark-breaks plugin](https://github.com/remarkjs/remark-breaks) alongside rehype-github-alerts
+
+
 ### types
 
 If you use typescript and intend to edit the options, for example to create custom alerts, then you may want to use the types provided by this library:
