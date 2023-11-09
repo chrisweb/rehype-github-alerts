@@ -31,7 +31,7 @@ if you use this package, there are other packages you might want to install too,
 
 ## examples
 
-I created [an issue on github](https://github.com/chrisweb/rehype-github-alerts/issues/1) to check how github is rendering alerts
+I created [an issue on github](https://github.com/chrisweb/rehype-github-alerts/issues/1) to check how github is rendering alerts, or look at [another test page](https://github.com/dipree/markdown-highlight-test) for github alerts by the author of the github implementation himself
 
 ### rehype example
 
@@ -77,6 +77,10 @@ the 3 icons used in this package are from [Codicons repository](https://github.c
 ## bugs
 
 if you find a bug, please open an issue in the [rehype-github-alerts issues page on github](https://github.com/chrisweb/rehype-github-alerts/issues), try to describe the bug you encountered as best as you can and if possible add some examples of the markdown / mdx content or code that you used when you found the bug, I or a contributor will try to look into it asap
+
+## Feedback
+
+If you have an idea to improve this project please use the 
 
 ## contributing
 
