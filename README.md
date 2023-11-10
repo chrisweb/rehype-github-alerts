@@ -60,6 +60,63 @@ all options have default values which for most use cases should be enough, meani
 - `supportLegacy` (`boolean`, default: true)
 - `build` (`DefaultBuildType`)
 
+### build option
+
+the build option can be used to customize how alerts get rendered, this can be useful if you want to modify what css classes the elements have
+
+the build option accepts a function that has two parameters:
+
+alertOptions: this is an object of type **IAlert**, meaning it contains the options of the alert that got matched, like the keyword, icon, color and title
+originalChildren: an array of type **DefaultBuildType**, containing the original children (body content of the alert)
+
+for example in your configuration file create a rehype-github-alerts **build** option like this:
+
+```mjs
+/**
+ * @typedef {import('rehype-github-alerts').IOptions} IOptions
+ * @typedef {import('rehype-github-alerts').DefaultBuildType} DefaultBuildType
+ */
+
+/** @type { DefaultBuildType } */
+const myGithubAlertBuild = (alertOptions, originalChildren) => {
+    const alert = {
+        type: 'element',
+        tagName: 'div',
+        properties: {
+            className: [
+                `markdown-alert-${alertOptions.keyword.toLowerCase()}`,
+            ],
+            style: 'color: ' + alertOptions.color + ';'
+        },
+        children: [
+            ...originalChildren
+        ]
+    }
+
+    return alert
+}
+
+/** @type { IOptions } */
+const rehypeGithubAlertsOptions = {
+    build: myGithubAlertBuild
+}
+```
+
+then use the following markdown code:
+
+```md
+> [!NOTE]
+> I'm a note (created using a custom build)
+```
+
+will yield the following HTML output:
+
+```html
+<div class="markdown-alert-note" style="color:rgb(9, 105, 218)">
+    I'm a note (created using a custom build)
+</div>
+```
+
 ## about "soft line breaks" support
 
 as noted in the readme of the [remark-breaks](https://github.com/remarkjs/remark-breaks) package:
@@ -189,7 +246,11 @@ legacy markdown (mdx) syntax:
 
 you can turn off legacy support via the options like so:
 
-
+```js
+const myRehypeGithubAlertsOptions = {
+    supportLegacy: false,
+}
+```
 
 ## icons
 
