@@ -4,7 +4,8 @@
     "description": "rehype plugin to create alerts (admonitions/callouts)",
     "main": "./dist/index.js",
     "scripts": {
-        "build": "esbuild ./src/index.ts --format=esm --bundle --minify --target=es2015 --outdir=dist && npm run types",
+        "build": "esbuild ./src/index.ts --format=esm --target=es2022 --outdir=dist && npm run types",
+        "build-min": "esbuild ./src/index.ts --format=esm --bundle --minify --target=es2022 --outdir=dist && npm run types",
         "lint": "npx eslint src/",
         "types": "tsc --declaration --emitDeclarationOnly --declarationDir dist"
     },
