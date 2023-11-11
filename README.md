@@ -44,11 +44,54 @@ if you use this package, there are other packages you might want to install too,
 
 ## examples
 
-I created [an issue on github](https://github.com/chrisweb/rehype-github-alerts/issues/1) to check how github is rendering alerts, or look at [another test page](https://github.com/dipree/markdown-highlight-test) for github alerts by the author of the github implementation himself
-
 ### rehype example
 
 check out the [readme of the rehype example](./examples/simple-rehype-example/README.md) for more details about this example, all the source code is located in `examples/simple-rehype-example/`
+
+### how GitHub renders alerts
+
+I created [an issue on github](https://github.com/chrisweb/rehype-github-alerts/issues/1) to check how github is rendering alerts, or look at [another test page](https://github.com/dipree/markdown-highlight-test) for github alerts by the author of the github implementation himself
+
+## styling
+
+add the following styles to your css to mimick GitHubs styling of alerts:
+
+```css
+:root {
+    --github-alert-default-color: rgb(175, 184, 193);
+    --github-alert-note-color: rgb(9, 105, 218);
+    --github-alert-important-color: rgb(130, 80, 223);
+    --github-alert-warning-color: rgb(154, 103, 0);
+}
+
+.markdown-alert {
+    padding: 0 1em;
+    margin-bottom: 16px;
+    border-left: 0.25em solid var(--github-alert-default-color);
+}
+
+.markdown-alert-note {
+    border-left-color: var(--github-alert-note-color);
+}
+
+.markdown-alert-important {
+    border-left-color: var(--github-alert-important-color);
+}
+
+.markdown-alert-warning {
+    border-left-color: var(--github-alert-warning-color);
+}
+
+.markdown-alert-header {
+    display: inline-flex;
+    margin-bottom: 4px;
+    align-items: center;
+}
+
+.markdown-alert-header>svg {
+    margin-right: 8px;
+}
+```
 
 ## options
 
