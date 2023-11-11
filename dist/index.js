@@ -95,8 +95,7 @@ const defaultBuild = (alertOptions, originalChildren) => {
       className: [
         "markdown-alert",
         `markdown-alert-${alertOptions.keyword.toLowerCase()}`
-      ],
-      style: "color: " + alertOptions.color + ";"
+      ]
     },
     children: [{
       type: "element",
