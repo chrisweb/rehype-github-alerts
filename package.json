@@ -40,7 +40,7 @@
         "hast-util-from-html": "^2.0.1"
     },
     "devDependencies": {
-        "@types/hast": "3.0.3",
+        "@types/hast": "^3.0.3",
         "@typescript-eslint/eslint-plugin": "^6.10.0",
         "esbuild": "^0.19.5",
         "eslint": "^8.53.0",
