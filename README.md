@@ -39,7 +39,7 @@ the markdown syntax for the 5 examples above is as follows:
 > Negative potential consequences of an action.
 ```
 
-this is a zero configuration package as all [options](#options) have defaults, but you can use them if you wish to modify default behavior, like for example by default 3 alerts are defined (with a default icon), use `options.alerts` to replace them with your own setup, there is also a default build that will create an output that mimicks what GitHub does, but you can change the build to create whatever HTML suits your needs best, check out the ["options" chapter](#options) to learn more about customization
+this is a zero configuration package as all [options](#options) have defaults, but you can use them if you wish to modify default behavior, like for example by default 3 alerts are defined (with a default icon), use `options.alerts` to replace them with your own setup, there is also a default build that will create an output that mimics what GitHub does, but you can change the build to create whatever HTML suits your needs best, check out the ["options" chapter](#options) to learn more about customization
 
 ## installation
 
@@ -49,7 +49,7 @@ npm i rehype-github-alerts --save-exact
 
 ### optional packages
 
-if you use this package, there are other packages you might want to install too, for examle:
+if you use this package, there are other packages you might want to install too, for example:
 
 - [remark-gfm](https://github.com/remarkjs/remark-gfm), adds support for [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/) (autolink literals, footnotes, strikethrough, tables, tasklists)
 - [remark-breaks](https://github.com/remarkjs/remark-breaks), turns soft line endings (enters) into hard breaks (`<br>`s). GitHub does this in a few places (comments, issues, PRs, and releases)
@@ -66,7 +66,7 @@ I created [an issue on github](https://github.com/chrisweb/rehype-github-alerts/
 
 ## styling
 
-add the following styles to your css to mimick GitHub's styling of alerts:
+add the following styles to your css to mimic GitHub's styling of alerts:
 
 ```css
 :root {
@@ -188,7 +188,7 @@ I used the [test-runner that built in node.js](https://nodejs.org/api/test.html)
 
 All tests are located in the `/test` directory
 
-To use the tests you need to create a **personal GitHub access token**, visit your github ["New fine-grained personal access token"](https://github.com/settings/personal-access-tokens/new) page to create a new token, you need to set the **Gists** permission under **Account permissions** to read/write, then click on "Genrate token" to create your new token. If you new to GitHub tokens, then you may want to check out the [GitHub documentation "Creating a fine-grained personal access token"](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token), this token will be used by one of the dependencies of the test suite to create gists based on input markdown and generate HTML files containing the ouput github has produced, for more about this package check out it's the "create-gfm-fixtures" GitHub repository
+To use the tests you need to create a **personal GitHub access token**, visit your github ["New fine-grained personal access token"](https://github.com/settings/personal-access-tokens/new) page to create a new token, you need to set the **Gists** permission under **Account permissions** to read/write, then click on "Generate token" to create your new token. If you new to GitHub tokens, then you may want to check out the [GitHub documentation "Creating a fine-grained personal access token"](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token), this token will be used by one of the dependencies of the test suite to create gists based on input markdown and generate HTML files containing the output GitHub has produced, for more about this package check out it's the "create-gfm-fixtures" GitHub repository
 
 When you have your token, make a copy of the `.env.example` and rename it to `.env`, then insert your token and save it
 
