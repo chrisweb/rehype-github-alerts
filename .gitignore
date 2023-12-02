@@ -13,3 +13,9 @@ node_modules/
 
 # eslint cache
 .eslintcache
+
+# code coverage
+coverage/
+
+# env file
+.env
