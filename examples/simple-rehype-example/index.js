@@ -1,6 +1,7 @@
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
-import remarkBreaks from 'remark-breaks'
+//import remarkGfm from 'remark-gfm'
+//import remarkBreaks from 'remark-breaks'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 import { read } from 'to-vfile'
@@ -11,10 +12,13 @@ const start = async () => {
 
     const file = await unified()
         .use(remarkParse)
-        .use(remarkBreaks)
+        // if you are using rehypeGithubAlerts you probably want
+        // to enable the next two plugins too, but they are optional
+        //.use(remarkGfm)
+        //.use(remarkBreaks)
         .use(remarkRehype)
-        .use(rehypeGithubAlerts)
         .use(rehypeStringify)
+        .use(rehypeGithubAlerts)
         .process(await read('content.md'))
 
     console.error(reporter(file))
