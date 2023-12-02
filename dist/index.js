@@ -63,9 +63,6 @@ const create = (node, index, parent) => {
   if (headerData === null) {
     return [SKIP];
   }
-  if (!isKeywordLetterCaseValid(headerData.alertType)) {
-    return [SKIP];
-  }
   const alertOptions = getAlertOptions(headerData.alertType);
   if (alertOptions === null) {
     return [SKIP];
@@ -92,47 +89,6 @@ const create = (node, index, parent) => {
     }
   }
   return [SKIP];
-};
-const isKeywordLetterCaseValid = (keyword) => {
-  let isValid = false;
-  if (internalOptions.supportLegacy) {
-    if (isCapitalized(keyword) || isUppercase(keyword)) {
-      isValid = true;
-    }
-  } else {
-    if (isUppercase(keyword)) {
-      isValid = true;
-    }
-  }
-  return isValid;
-};
-const isCapitalized = (word) => {
-  if (word === "") {
-    return false;
-  }
-  for (let i = 0; i < word.length; i++) {
-    if (i === 0) {
-      if (word.charAt(i) !== word.charAt(i).toUpperCase()) {
-        return false;
-      }
-    } else {
-      if (word.charAt(i) !== word.charAt(i).toLowerCase()) {
-        return false;
-      }
-    }
-  }
-  return true;
-};
-const isUppercase = (word) => {
-  if (word === "") {
-    return false;
-  }
-  for (let i = 0; i < word.length; i++) {
-    if (word.charAt(i) !== word.charAt(i).toUpperCase()) {
-      return false;
-    }
-  }
-  return true;
 };
 const defaultBuild = (alertOptions, originalChildren) => {
   let alertIconElement;
