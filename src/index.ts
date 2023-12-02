@@ -97,13 +97,6 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
         return [SKIP]
     }
 
-    // check if the keyword letter case is correct
-    // the new keywords are all uppercase
-    // the legacy mode has capitalized keywords
-    if (!isKeywordLetterCaseValid(headerData.alertType)) {
-        return [SKIP]
-    }
-
     // try to find options matching the alert keyword
     const alertOptions = getAlertOptions(headerData.alertType)
 
@@ -153,77 +146,6 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
     }
 
     return [SKIP]
-
-}
-
-const isKeywordLetterCaseValid = (keyword: string): boolean => {
-
-    let isValid = false
-
-    if (internalOptions.supportLegacy) {
-
-        // if legacy mode is enabled both
-        // capitalized and uppercase keywords are valid
-        if (isCapitalized(keyword) || isUppercase(keyword)) {
-            isValid = true
-        }
-
-    } else {
-
-        // in modern mode only
-        // only all uppercase keywords are valid
-        if (isUppercase(keyword)) {
-            isValid = true
-        }
-
-    }
-
-    return isValid
-
-}
-
-const isCapitalized = (word: string): boolean => {
-
-    if (word === '') {
-        return false
-    }
-
-    for (let i = 0; i < word.length; i++) {
-
-        if (i === 0) {
-            // first letter needs to be uppercase
-            if (word.charAt(i) !== word.charAt(i).toUpperCase()) {
-                return false
-            }
-        } else {
-            // all other letters need to be lowercase
-            if (word.charAt(i) !== word.charAt(i).toLowerCase()) {
-                return false
-            }
-        }
-
-    }
-
-    return true
-
-}
-
-const isUppercase = (word: string): boolean => {
-
-    if (word === '') {
-        return false
-    }
-
-    for (let i = 0; i < word.length; i++) {
-
-        // all letters need to be uppercase
-        if (word.charAt(i) !== word.charAt(i).toUpperCase()) {
-            return false
-        }
-
-    }
-
-    return true
 
 }
 
