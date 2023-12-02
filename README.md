@@ -3,31 +3,43 @@
 
 # rehype-github-alerts
 
-rehype plugin to create alerts (admonitions/callouts), mimicking the way alerts get rendered on github.com, currently three types of alerts are supported:
+rehype plugin to create alerts (admonitions/callouts), mimicking the way alerts get rendered on github.com (based on this [GitHub community "Alerts" discussion](https://github.com/orgs/community/discussions/16925)), currently 5 types of alerts are supported:
 
 > [!NOTE]  
-> I'm a note :wave:
+> Highlights information that users should take into account, even when skimming.
+
+> [!TIP]
+> Optional information to help a user be more successful.
 
 > [!IMPORTANT]  
-> I'm important
+> Crucial information necessary for users to succeed.
 
 > [!WARNING]  
-> I'm a warning
+> Critical content demanding immediate user attention due to potential risks.
 
-the markdown syntax for the 3 examples above is as follows:
+> [!CAUTION]
+> Negative potential consequences of an action.
+
+the markdown syntax for the 5 examples above is as follows:
 
 ```md
 > [!NOTE]  
-> I'm a note :wave:
+> Highlights information that users should take into account, even when skimming.
+
+> [!TIP]
+> Optional information to help a user be more successful.
 
 > [!IMPORTANT]  
-> I'm important
+> Crucial information necessary for users to succeed.
 
 > [!WARNING]  
-> I'm a warning
+> Critical content demanding immediate user attention due to potential risks.
+
+> [!CAUTION]
+> Negative potential consequences of an action.
 ```
 
-this is a zero configuration package as all [options](#options) have defaults, but you can use them if you wish to modify default behavior, like for example by default 3 alerts are defined with a default icon and color, use `options.alerts` to replace them with your own setup
+this is a zero configuration package as all [options](#options) have defaults, but you can use them if you wish to modify default behavior, like for example by default 3 alerts are defined (with a default icon), use `options.alerts` to replace them with your own setup, there is also a default build that will create an output that mimicks what GitHub does, but you can change the build to create whatever HTML suits your needs best, check out the ["options" chapter](#options) to learn more about customization
 
 ## installation
 
@@ -54,7 +66,7 @@ I created [an issue on github](https://github.com/chrisweb/rehype-github-alerts/
 
 ## styling
 
-add the following styles to your css to mimick GitHubs styling of alerts:
+add the following styles to your css to mimick GitHub's styling of alerts:
 
 ```css
 :root {
@@ -99,7 +111,7 @@ add the following styles to your css to mimick GitHubs styling of alerts:
 
 all options have default values which for most use cases should be enough, meaning there is zero configuration to do, unless you want to customize something
 
-- `alerts` (`IAlert[]`) 
+- `alerts` (`IAlert[]`)
 - `supportLegacy` (`boolean`, default: true)
 - `build` (`DefaultBuildType`)
 
@@ -109,7 +121,7 @@ the build option can be used to customize how alerts get rendered, this can be u
 
 the build option accepts a function that has two parameters:
 
-alertOptions: this is an object of type **IAlert**, meaning it contains the options of the alert that got matched, like the keyword, icon, color and title
+alertOptions: this is an object of type **IAlert**, meaning it contains the options of the alert that got matched, like the keyword, icon and title
 originalChildren: an array of type **DefaultBuildType**, containing the original children (body content of the alert)
 
 for example in your configuration file create a rehype-github-alerts **build** option like this:
@@ -129,11 +141,10 @@ const myGithubAlertBuild = (alertOptions, originalChildren) => {
             className: [
                 `markdown-alert-${alertOptions.keyword.toLowerCase()}`,
             ],
-            style: 'color: ' + alertOptions.color + ';'
         },
         children: [
             ...originalChildren
-        ]
+        ],
     }
 
     return alert
@@ -141,7 +152,7 @@ const myGithubAlertBuild = (alertOptions, originalChildren) => {
 
 /** @type { IOptions } */
 const rehypeGithubAlertsOptions = {
-    build: myGithubAlertBuild
+    build: myGithubAlertBuild,
 }
 ```
 
@@ -155,7 +166,7 @@ then use the following markdown code:
 will yield the following HTML output:
 
 ```html
-<div class="markdown-alert-note" style="color:rgb(9, 105, 218)">
+<div class="markdown-alert-note">
     I'm a note (created using a custom build)
 </div>
 ```
@@ -169,10 +180,28 @@ as noted in the readme of the [remark-breaks](https://github.com/remarkjs/remark
 
 this is why the **rehype-github-alerts** plugin doesn't turn soft line breaks into hard line breaks out of the box
 
-so if you want to mimick githubs way of handling soft line breaks, then I recommend you install the [remark-breaks plugin](https://github.com/remarkjs/remark-breaks) alongside rehype-github-alerts
+so if you want to mimick GitHub's way of handling soft line breaks, then I recommend you install the [remark-breaks plugin](https://github.com/remarkjs/remark-breaks) alongside rehype-github-alerts
 
+## tests
 
-### types
+I used the [test-runner that built in node.js](https://nodejs.org/api/test.html) to add some test for common cases
+
+All tests are located in the `/test` directory
+
+To use the tests you need to create a **personal GitHub access token**, visit your github ["New fine-grained personal access token"](https://github.com/settings/personal-access-tokens/new) page to create a new token, you need to set the **Gists** permission under **Account permissions** to read/write, then click on "Genrate token" to create your new token. If you new to GitHub tokens, then you may want to check out the [GitHub documentation "Creating a fine-grained personal access token"](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token), this token will be used by one of the dependencies of the test suite to create gists based on input markdown and generate HTML files containing the ouput github has produced, for more about this package check out it's the "create-gfm-fixtures" GitHub repository
+
+When you have your token, make a copy of the `.env.example` and rename it to `.env`, then insert your token and save it
+
+To run the tests use the following command:
+
+```shell
+npm run test
+```
+
+> [!NOTE]  
+> this will build the plugin and then run the test coverage command
+
+## types
 
 If you use typescript and intend to edit the options, for example to create custom alerts, then you may want to use the types provided by this library:
 
@@ -184,7 +213,6 @@ const myOptions: IOptions = {
         {
             keyword: 'MY_ALERT',
             icon: '<svg width="16" height="16" viewBox="0 0 16 16"/></svg>',
-            color: 'rgb(255, 255, 255)',
             title: 'My Alert',
         },
     ],
@@ -269,39 +297,36 @@ export default nextConfig
 
 ## legacy syntax
 
-the legacy syntax is supported by this plugin
-
-> [!NOTE]
-> it is by default turned on because as of now github has the legacy support turned on too, if some day they decide to switch it off by default then I will update this package to do the same
+as of 14 November 2023 GitHub has removed support for legacy syntax, the legacy syntax is supported by this plugin but as of now turned off by default
 
 legacy markdown (mdx) syntax:
 
 ```md
-> **!NOTE**  
+> **!Note**  
 > I'm a note :wave:
 
-> **!IMPORTANT**  
+> **!Important**  
 > I'm important
 
-> **!WARNING**  
+> **!Warning**  
 > I'm a warning
 ```
 
-you can turn off legacy support via the options like so:
+you can turn **ON** legacy support via the options like so:
 
 ```js
 const myRehypeGithubAlertsOptions = {
-    supportLegacy: false,
+    supportLegacy: true,
 }
 ```
 
 ## icons
 
-the 3 icons used in this package are from [Codicons repository](https://github.com/microsoft/vscode-codicons) and licensed under [Creative Commons Attribution 4.0 International](https://github.com/microsoft/vscode-codicons/blob/main/LICENSE)
+the 5 icons used in this package are from ["Bootstrap Icons" repository](https://github.com/twbs/icons) and licensed under [MIT](https://github.com/twbs/icons/blob/main/LICENSE)
 
 ## TODOs
 
-- write tests
+- write more tests to reach a test coverage of 100%
 
 ## bugs
 
