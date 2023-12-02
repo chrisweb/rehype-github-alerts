@@ -30,3 +30,9 @@
 
 > [!INVALID]
 > test for invalid alert type
+
+> [!NOTE]  
+> - note
+> - with
+> - a
+> - list
