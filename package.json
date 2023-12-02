@@ -7,7 +7,10 @@
         "build": "esbuild ./src/index.ts --format=esm --target=es2022 --outdir=dist && npm run types",
         "build-min": "esbuild ./src/index.ts --format=esm --bundle --minify --target=es2022 --outdir=dist && npm run types",
         "lint": "npx eslint src/",
-        "types": "tsc --declaration --emitDeclarationOnly --declarationDir dist"
+        "types": "tsc --declaration --emitDeclarationOnly --declarationDir dist",
+        "test": "npm run build && npm run test-coverage",
+        "test-api": "node --conditions development test/index.js",
+        "test-coverage": "c8 --100 --check-coverage --reporter lcov npm run test-api"
     },
     "author": "chrisweb (https://chris.lu)",
     "license": "MIT",
@@ -24,11 +27,14 @@
         "typescript"
     ],
     "type": "module",
+    "exports": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+    },
     "files": [
         "package*.json",
         "dist/*"
     ],
-    "types": "./dist/index.d.ts",
     "repository": {
         "type": "git",
         "url": "https://github.com/chrisweb/rehype-github-alerts.git"
@@ -41,9 +47,23 @@
     },
     "devDependencies": {
         "@types/hast": "^3.0.3",
-        "@typescript-eslint/eslint-plugin": "^6.10.0",
-        "esbuild": "^0.19.5",
-        "eslint": "^8.53.0",
-        "typescript": "^5.2.2"
+        "@typescript-eslint/eslint-plugin": "^6.13.1",
+        "esbuild": "^0.19.8",
+        "eslint": "^8.54.0",
+        "typescript": "^5.3.2",
+        "create-gfm-fixtures": "^1.1.0",
+        "unified": "^11.0.4",
+        "remark-parse": "^11.0.0",
+        "remark-gfm": "^4.0.0",
+        "remark-breaks": "^4.0.0",
+        "remark-rehype": "^11.0.0",
+        "rehype-stringify": "^10.0.0",
+        "c8": "^8.0.1",
+        "dotenv": "^16.3.1"
+    },
+    "typeCoverage": {
+        "atLeast": 100,
+        "detail": true,
+        "strict": true
     }
 }
