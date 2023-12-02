@@ -8,24 +8,36 @@ const rehypeGithubAlerts = (options) => {
     alerts: [
       {
         keyword: "NOTE",
-        icon: '<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.568 1.031A6.8 6.8 0 0 1 12.76 3.05a7.06 7.06 0 0 1 .46 9.39 6.85 6.85 0 0 1-8.58 1.74 7 7 0 0 1-3.12-3.5 7.12 7.12 0 0 1-.23-4.71 7 7 0 0 1 2.77-3.79 6.8 6.8 0 0 1 4.508-1.149zM9.04 13.88a5.89 5.89 0 0 0 3.41-2.07 6.07 6.07 0 0 0-.4-8.06 5.82 5.82 0 0 0-7.43-.74 6.06 6.06 0 0 0 .5 10.29 5.81 5.81 0 0 0 3.92.58zM7.375 6h1.25V5h-1.25v1zm1.25 1v4h-1.25V7h1.25z"/></svg>',
-        color: "rgb(9, 105, 218)",
+        // bootstrap icon: info-circle
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg>',
         title: "Note"
       },
       {
         keyword: "IMPORTANT",
-        icon: '<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 1h13l.5.5v10l-.5.5H7.707l-2.853 2.854L4 14.5V12H1.5l-.5-.5v-10l.5-.5zm6 10H14V2H2v9h2.5l.5.5v1.793l2.146-2.147L7.5 11zm0-8h1v5h-1V3zm0 7h1V9h-1v1z"/></svg>',
-        color: "rgb(130, 80, 223)",
+        // bootstrap icon: exclamation-square
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/><path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/></svg>',
         title: "Important"
       },
       {
         keyword: "WARNING",
-        icon: '<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.56 1h.88l6.54 12.26-.44.74H1.44L1 13.26 7.56 1zM8 2.28L2.28 13H13.7L8 2.28zM8.625 12v-1h-1.25v1h1.25zm-1.25-2V6h1.25v4h-1.25z"/></svg>',
-        color: "rgb(154, 103, 0)",
+        // bootstrap icon: exclamation-triangle
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/><path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/></svg>',
         title: "Warning"
+      },
+      {
+        keyword: "TIP",
+        // bootstrap icon: lightbulb
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/></svg>',
+        title: "Tip"
+      },
+      {
+        keyword: "CAUTION",
+        // bootstrap icon: exclamation-octagon
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1z"/><path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/></svg>',
+        title: "Caution"
       }
     ],
-    supportLegacy: true
+    supportLegacy: false
   };
   internalOptions = Object.assign({}, defaultOptions, options);
   return (tree) => {
@@ -41,14 +53,17 @@ const create = (node, index, parent) => {
   if (!node.children) {
     return null;
   }
-  const blockquoteParagraph = node.children.find((child) => {
+  const firstParagraph = node.children.find((child) => {
     return isElement(child) && child.tagName === "p";
   });
-  if (!isElement(blockquoteParagraph)) {
+  if (!isElement(firstParagraph)) {
     return null;
   }
-  const headerData = extractHeaderData(blockquoteParagraph);
+  const headerData = extractHeaderData(firstParagraph);
   if (headerData === null) {
+    return [SKIP];
+  }
+  if (!isKeywordLetterCaseValid(headerData.alertType)) {
     return [SKIP];
   }
   const alertOptions = getAlertOptions(headerData.alertType);
@@ -57,16 +72,67 @@ const create = (node, index, parent) => {
   }
   if (typeof parent !== "undefined" && typeof index !== "undefined") {
     const build = internalOptions.build || defaultBuild;
-    const originalChildren = blockquoteParagraph.children.slice(2, blockquoteParagraph.children.length);
-    if (headerData.rest.length > 0) {
-      originalChildren.unshift({ type: "text", value: headerData.rest });
+    const alertBodyChildren = [];
+    const remainingFirstParagraphChildren = firstParagraph.children.slice(3, firstParagraph.children.length);
+    if (remainingFirstParagraphChildren.length > 0) {
+      const paragrahElement = {
+        type: "element",
+        tagName: "p",
+        properties: {},
+        children: remainingFirstParagraphChildren
+      };
+      alertBodyChildren.push(paragrahElement);
     }
-    const alertElement = build(alertOptions, originalChildren);
+    if (node.children.length > 2) {
+      alertBodyChildren.push(...node.children.slice(2, node.children.length));
+    }
+    const alertElement = build(alertOptions, alertBodyChildren);
     if (alertElement !== null) {
       parent.children[index] = alertElement;
     }
   }
   return [SKIP];
+};
+const isKeywordLetterCaseValid = (keyword) => {
+  let isValid = false;
+  if (internalOptions.supportLegacy) {
+    if (isCapitalized(keyword) || isUppercase(keyword)) {
+      isValid = true;
+    }
+  } else {
+    if (isUppercase(keyword)) {
+      isValid = true;
+    }
+  }
+  return isValid;
+};
+const isCapitalized = (word) => {
+  if (word === "") {
+    return false;
+  }
+  for (let i = 0; i < word.length; i++) {
+    if (i === 0) {
+      if (word.charAt(i) !== word.charAt(i).toUpperCase()) {
+        return false;
+      }
+    } else {
+      if (word.charAt(i) !== word.charAt(i).toLowerCase()) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+const isUppercase = (word) => {
+  if (word === "") {
+    return false;
+  }
+  for (let i = 0; i < word.length; i++) {
+    if (word.charAt(i) !== word.charAt(i).toUpperCase()) {
+      return false;
+    }
+  }
+  return true;
 };
 const defaultBuild = (alertOptions, originalChildren) => {
   let alertIconElement;
@@ -97,33 +163,22 @@ const defaultBuild = (alertOptions, originalChildren) => {
         `markdown-alert-${alertOptions.keyword.toLowerCase()}`
       ]
     },
-    children: [{
-      type: "element",
-      tagName: "p",
-      properties: {},
-      children: [
-        {
-          type: "element",
-          tagName: "span",
-          properties: {
-            className: [
-              "markdown-alert-header"
-            ]
-          },
-          children: [
-            alertIconElement,
-            titleElementContent
+    children: [
+      {
+        type: "element",
+        tagName: "p",
+        properties: {
+          className: [
+            "markdown-alert-title"
           ]
         },
-        {
-          type: "element",
-          tagName: "br",
-          properties: {},
-          children: []
-        },
-        ...originalChildren
-      ]
-    }]
+        children: [
+          alertIconElement,
+          titleElementContent
+        ]
+      },
+      ...originalChildren
+    ]
   };
   return alert;
 };
@@ -155,7 +210,7 @@ const extractHeaderData = (paragraph) => {
 };
 const getAlertOptions = (alertType) => {
   const alertOptions = internalOptions.alerts.find((alert) => {
-    return alertType === alert.keyword;
+    return alertType.toUpperCase() === alert.keyword.toUpperCase();
   });
   return alertOptions ? alertOptions : null;
 };
