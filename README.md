@@ -41,6 +41,9 @@ the markdown syntax for the 5 examples above is as follows:
 
 this is a zero configuration package as all [options](#options) have defaults, but you can use them if you wish to modify default behavior, like for example by default 3 alerts are defined (with a default icon), use `options.alerts` to replace them with your own setup, there is also a default build that will create an output that mimics what GitHub does, but you can change the build to create whatever HTML suits your needs best, check out the ["options" chapter](#options) to learn more about customization
 
+> [!TIP]  
+> One challenge devs often face when using alerts are line breaks, please check out the ["about soft line breaks"](#about-soft-line-breaks-support) chapter in this readme and if after that you still have questions don't hesitate to ask a question in the [discussions page](https://github.com/chrisweb/rehype-github-alerts/discussions)
+
 ## installation
 
 ```shell
