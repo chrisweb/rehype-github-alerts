@@ -62,7 +62,7 @@ check out the [readme of the rehype example](./examples/simple-rehype-example/RE
 
 ### how GitHub renders alerts
 
-I created [an issue on github](https://github.com/chrisweb/rehype-github-alerts/issues/1) to check how github is rendering alerts, or look at [another test page](https://github.com/dipree/markdown-highlight-test) for github alerts by the author of the github implementation himself
+I created [an issue on github](https://github.com/chrisweb/rehype-github-alerts/issues/1) to check how github is rendering alerts (will add more examples over time, based on feedback)
 
 ## styling
 
