@@ -116,17 +116,17 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
         // and the text will be in a single text node
         // headerData rest contains the remaining text without the alert type
         if (headerData.rest.trim() !== '') {
-            const restAsTextNode: Text =   {
+            const restAsTextNode: Text = {
                 type: 'text',
                 value: headerData.rest
-              };
+            }
             const paragraphElement: Element = {
                 type: 'element',
-                tagName: "p",
+                tagName: 'p',
                 properties: {},
                 children: [restAsTextNode]
-            };
-            alertBodyChildren.push(paragraphElement);
+            }
+            alertBodyChildren.push(paragraphElement)
         }
 
         // for alerts the blockquote first element is always
@@ -140,25 +140,25 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
             // meaning we start the slice at 2 to not take
             // the br element and new line text nodes
             if (remainingFirstParagraphChildren[0].type === 'element' &&
-            remainingFirstParagraphChildren[0].tagName === 'br') {
-                const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length);
+                remainingFirstParagraphChildren[0].tagName === 'br') {
+                const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length)
                 const paragrahElement: Element = {
-                    type: "element",
-                    tagName: "p",
+                    type: 'element',
+                    tagName: 'p',
                     properties: {},
                     children: remainingChildrenWithoutLineBreak
-                };
-                alertBodyChildren.push(paragrahElement);
+                }
+                alertBodyChildren.push(paragrahElement)
             } else {
                 // if no hard line break (br) take all the remaining
                 // and add them to new paragraph to mimick the initial structure
                 const paragrahElement: Element = {
-                    type: "element",
-                    tagName: "p",
+                    type: 'element',
+                    tagName: 'p',
                     properties: {},
                     children: remainingFirstParagraphChildren
-                };
-                alertBodyChildren.push(paragrahElement);
+                }
+                alertBodyChildren.push(paragrahElement)
             }
         }
 
