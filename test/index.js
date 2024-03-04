@@ -10,6 +10,7 @@ import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 import { rehypeGithubAlerts } from 'rehype-github-alerts'
 import dotenv from 'dotenv'
+import { EOL } from 'os'
 
 dotenv.config()
 
@@ -92,32 +93,7 @@ function runTests(files, base) {
                 actual += '\n'
             }
     
-            if (name === 'html') {
-                // Elements that GH drops the tags of.
-                actual = actual
-                    .replace(
-                        /<\/?(?:a|abbr|acronym|address|applet|article|aside|audio|bdi|bdo|big|blink|button|canvas|center|cite|content|data|datalist|dfn|dialog|dir|element|fieldset|figcaption|figure|font|footer|form|header|hgroup|label|legend|listing|main|map|mark|marquee|math|menu|meter|multicol|nav|nobr|noscript|object|optgroup|option|output|progress|rb|rbc|rtc|search|select|shadow|slot|small|spacer|svg|template|time|u)>/g,
-                        ''
-                    )
-                    // Elements that GitHub drops entirely
-                    .replace(/<video>.*?<\/video>/g, '')
-                    // Elements that GitHub cleans (To do: implemment tagfilter somewhere?)
-                    .replace(
-                        /<(\/?(?:iframe|noembed|noframes|plaintext|script|style|textarea|title|xmp)>)/g,
-                        '&#x3C;$1'
-                    )
-    
-                expected = expected
-                    // Drop their custom element.
-                    .replace(/<themed-picture data-catalyst-inline="true">/, '')
-                    .replace(/<\/themed-picture>/, '')
-    
-                // Don’t test `template`, they drop the tags first, so they transform the contents.
-                // We see `template` and don’t transform its `element.content`.
-                const re = /<code>template<\/code>: .+?<\/li>/
-                actual = actual.replace(re, 'xxx')
-                expected = expected.replace(re, 'xxx')
-            }
+            actual = actual.replaceAll('\r\n', '\n').replaceAll('\n', EOL)
     
             assert.equal(actual, expected, name)
     
