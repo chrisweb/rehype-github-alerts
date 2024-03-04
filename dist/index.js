@@ -70,15 +70,39 @@ const create = (node, index, parent) => {
   if (typeof parent !== "undefined" && typeof index !== "undefined") {
     const build = internalOptions.build || defaultBuild;
     const alertBodyChildren = [];
-    const remainingFirstParagraphChildren = firstParagraph.children.slice(3, firstParagraph.children.length);
-    if (remainingFirstParagraphChildren.length > 0) {
-      const paragrahElement = {
+    if (headerData.rest.trim() !== "") {
+      const restAsTextNode = {
+        type: "text",
+        value: headerData.rest
+      };
+      const paragraphElement = {
         type: "element",
         tagName: "p",
         properties: {},
-        children: remainingFirstParagraphChildren
+        children: [restAsTextNode]
       };
-      alertBodyChildren.push(paragrahElement);
+      alertBodyChildren.push(paragraphElement);
+    }
+    const remainingFirstParagraphChildren = firstParagraph.children.slice(3, firstParagraph.children.length);
+    if (remainingFirstParagraphChildren.length > 0) {
+      if (remainingFirstParagraphChildren[0].type === "element" && remainingFirstParagraphChildren[0].tagName === "br") {
+        const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length);
+        const paragrahElement = {
+          type: "element",
+          tagName: "p",
+          properties: {},
+          children: remainingChildrenWithoutLineBreak
+        };
+        alertBodyChildren.push(paragrahElement);
+      } else {
+        const paragrahElement = {
+          type: "element",
+          tagName: "p",
+          properties: {},
+          children: remainingFirstParagraphChildren
+        };
+        alertBodyChildren.push(paragrahElement);
+      }
     }
     if (node.children.length > 2) {
       alertBodyChildren.push(...node.children.slice(2, node.children.length));
