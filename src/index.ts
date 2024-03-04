@@ -1,6 +1,6 @@
 import { SKIP, visit } from 'unist-util-visit'
 import { isElement } from 'hast-util-is-element'
-import type { Root, Element, ElementContent, Parent } from 'hast'
+import type { Root, Element, ElementContent, Parent, Text } from 'hast'
 import { fromHtml } from 'hast-util-from-html'
 
 export interface IAlert {
@@ -111,22 +111,55 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
 
         const alertBodyChildren: ElementContent[] = []
 
-        // the first line always contains the alert type information
-        // but if the next line (and the ones following) is text too
-        // then those lines of text will also be in the first paragraph
-        // here we take the remaining lines
+        // if the first line of the blockquote has no hard line break
+        // after the alert type but some text, then both the type
+        // and the text will be in a single text node
+        // headerData rest contains the remaining text without the alert type
+        if (headerData.rest.trim() !== '') {
+            const restAsTextNode: Text =   {
+                type: 'text',
+                value: headerData.rest
+              };
+            const paragraphElement: Element = {
+                type: 'element',
+                tagName: "p",
+                properties: {},
+                children: [restAsTextNode]
+            };
+            alertBodyChildren.push(paragraphElement);
+        }
+
+        // for alerts the blockquote first element is always
+        // a pragraph but it can have move children then just
+        // the alert type text node
         const remainingFirstParagraphChildren = firstParagraph.children.slice(3, firstParagraph.children.length)
 
         if (remainingFirstParagraphChildren.length > 0) {
-
-            const paragrahElement: Element = {
-                type: 'element',
-                tagName: 'p',
-                properties: {},
-                children: remainingFirstParagraphChildren,
+            // if the alert type has a hardline break we remove it
+            // to not start the alert with a blank line
+            // meaning we start the slice at 2 to not take
+            // the br element and new line text nodes
+            if (remainingFirstParagraphChildren[0].type === 'element' &&
+            remainingFirstParagraphChildren[0].tagName === 'br') {
+                const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length);
+                const paragrahElement: Element = {
+                    type: "element",
+                    tagName: "p",
+                    properties: {},
+                    children: remainingChildrenWithoutLineBreak
+                };
+                alertBodyChildren.push(paragrahElement);
+            } else {
+                // if no hard line break (br) take all the remaining
+                // and add them to new paragraph to mimick the initial structure
+                const paragrahElement: Element = {
+                    type: "element",
+                    tagName: "p",
+                    properties: {},
+                    children: remainingFirstParagraphChildren
+                };
+                alertBodyChildren.push(paragrahElement);
             }
-
-            alertBodyChildren.push(paragrahElement)
         }
 
         // outside of the first paragraph there may also be children
