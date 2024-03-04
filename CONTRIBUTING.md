@@ -10,13 +10,17 @@ clone your fork so that you can edit the code in your local IDE (VSCode):
 
 `git clone https://github.com/YOUR_GITHUB_USER/rehype-github-alerts.git`
 
-now you can open the project in your IDE (VSCode), happy coding...
+finally open the project in your IDE (VSCode) and install the dependencies using the `npm i` command
+
+now your development environment is ready, happy coding 😊
 
 when you are done coding, please first run the linting command `npm run lint`
 
 then if there are no linting errors, create a new build using the `npm run build` command
 
-now finally you can commit your local changes to your fork (if your commit is related to a ticket start your commit message with the "#TICKER_NUMBER", this will "link" the commit to the ticket)  
+now finally run the test using the `npm run test` command (you may have to adapt the tests based on your changes or even add new ones depending on what changes you did)
+
+If the test are successful, commit your local changes to your fork (if your commit is related to a ticket start your commit message with the "#TICKER_NUMBER", this will "link" the commit to the ticket)  
 
 `git commit -m "#TICKER_NUMBER commit message"`
 
