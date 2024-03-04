@@ -8,7 +8,7 @@ rehype plugin to create alerts (admonitions/callouts), mimicking the way alerts 
 > [!NOTE]  
 > Highlights information that users should take into account, even when skimming.
 
-> [!TIP]
+> [!TIP]  
 > Optional information to help a user be more successful.
 
 > [!IMPORTANT]  
@@ -17,7 +17,7 @@ rehype plugin to create alerts (admonitions/callouts), mimicking the way alerts 
 > [!WARNING]  
 > Critical content demanding immediate user attention due to potential risks.
 
-> [!CAUTION]
+> [!CAUTION]  
 > Negative potential consequences of an action.
 
 the markdown syntax for the 5 examples above is as follows:
@@ -26,7 +26,7 @@ the markdown syntax for the 5 examples above is as follows:
 > [!NOTE]  
 > Highlights information that users should take into account, even when skimming.
 
-> [!TIP]
+> [!TIP]  
 > Optional information to help a user be more successful.
 
 > [!IMPORTANT]  
@@ -35,27 +35,17 @@ the markdown syntax for the 5 examples above is as follows:
 > [!WARNING]  
 > Critical content demanding immediate user attention due to potential risks.
 
-> [!CAUTION]
+> [!CAUTION]  
 > Negative potential consequences of an action.
 ```
 
 this is a zero configuration package as all [options](#options) have defaults, but you can use them if you wish to modify default behavior, like for example by default 3 alerts are defined (with a default icon), use `options.alerts` to replace them with your own setup, there is also a default build that will create an output that mimics what GitHub does, but you can change the build to create whatever HTML suits your needs best, check out the ["options" chapter](#options) to learn more about customization
-
-> [!TIP]  
-> One challenge devs often face when using alerts are line breaks, please check out the ["about soft line breaks"](#about-soft-line-breaks-support) chapter in this readme and if after that you still have questions don't hesitate to ask a question in the [discussions page](https://github.com/chrisweb/rehype-github-alerts/discussions)
 
 ## installation
 
 ```shell
 npm i rehype-github-alerts --save-exact
 ```
-
-### optional packages
-
-if you use this package, there are other packages you might want to install too, for example:
-
-- [remark-gfm](https://github.com/remarkjs/remark-gfm), adds support for [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/) (autolink literals, footnotes, strikethrough, tables, tasklists)
-- [remark-breaks](https://github.com/remarkjs/remark-breaks), turns soft line endings (enters) into hard breaks (`<br>`s). GitHub does this in a few places (comments, issues, PRs, and releases)
 
 ## examples
 
@@ -159,11 +149,11 @@ const rehypeGithubAlertsOptions = {
 }
 ```
 
-then use the following markdown code:
+then use the following markdown code (important: there are two spaces after `[!NOTE]  ` to create a hard line break, see the ["about soft line breaks" chapter](#about-soft-line-breaks-support) for a more detailed explanation):
 
 ```md
-> [!NOTE]
-> I'm a note (created using a custom build)
+> [!NOTE]  
+> I'm a note (created using a custom build)  
 ```
 
 will yield the following HTML output:
@@ -176,14 +166,34 @@ will yield the following HTML output:
 
 ## about "soft line breaks" support
 
-as noted in the readme of the [remark-breaks](https://github.com/remarkjs/remark-breaks) package:
+> [!IMPORTANT]  
+> GitHub turns soft line breaks into hard line breaks by default, this plugin does NOT  
+
+**option 1:** If you are using rehype-github-alerts, then **you need to add two spaces at the end of each line** if you want to have a line break (same as you would do for markdown outside of an alert), which is the [markdown syntax for a hard linebreak](https://daringfireball.net/projects/markdown/syntax#p), like so:
+
+```md
+> [!NOTE]  
+> you MUST add 2 spaces (to all 3 lines of this example, including the first one) to create line breaks  
+> if you don't want to manually add two spaces after each line, then you need to install the [remark-breaks](https://github.com/remarkjs/remark-breaks) plugin  
+```
+
+**option 2:** If you do NOT want to have to add two spaces manually after each line, then I recommend you install the plugin called [remark-breaks](https://github.com/remarkjs/remark-breaks), **remark-breaks** will mimick the behavior you experience on GitHub, by automatically turning a soft line break (when you hit `Enter` at the end of a line) into hard line breaks  
+
+As noted in the readme of the [remark-breaks](https://github.com/remarkjs/remark-breaks) package README, the purpose of the **remark-breaks** is to:
 
 > remark-breaks turns enters into `<br>`s
 > GitHub does this in a few places (comments, issues, PRs, and releases)
 
-this is why the **rehype-github-alerts** plugin doesn't turn soft line breaks into hard line breaks out of the box
+## paragraphs separation
 
-so if you want to mimick GitHub's way of handling soft line breaks, then I recommend you install the [remark-breaks plugin](https://github.com/remarkjs/remark-breaks) alongside rehype-github-alerts
+If you don't want a new line (1 `<br>` element) but also some space between two paragraphs (2 `<br>` elements), no matter if you have **remark-breaks** installed or not, then you need to add an empty line (same as you would do outside of a blockquote), like so:
+
+```md
+> [!TIP]  
+> first paragraph  
+>
+> second paragraph  
+```
 
 ## tests
 
@@ -202,7 +212,7 @@ npm run test
 ```
 
 > [!NOTE]  
-> this will build the plugin and then run the test coverage command
+> this will build the plugin and then run the test coverage command  
 
 ## types
 
@@ -296,6 +306,8 @@ const nextConfig = (/*phase*/) => {
 export default nextConfig
 ```
 
+The Next.js configuration example above assumes that you have installed the packages [@next/mdx](https://www.npmjs.com/package/@next/mdx), [@mdx-js/loader](https://www.npmjs.com/package/@mdx-js/loader), [remark-breaks](https://www.npmjs.com/package/remark-breaks), [remark-gfm](https://www.npmjs.com/package/remark-gfm) and [rehype-github-alerts](https://www.npmjs.com/package/rehype-github-alerts)
+
 </details>
 
 ## legacy syntax
@@ -306,13 +318,13 @@ legacy markdown (mdx) syntax:
 
 ```md
 > **!Note**  
-> I'm a note :wave:
+> I'm a note :wave:  
 
 > **!Important**  
-> I'm important
+> I'm important  
 
 > **!Warning**  
-> I'm a warning
+> I'm a warning  
 ```
 
 you can turn **ON** legacy support via the options like so:
@@ -322,10 +334,6 @@ const myRehypeGithubAlertsOptions = {
     supportLegacy: true,
 }
 ```
-
-## icons
-
-the 5 icons used in this package are from ["Bootstrap Icons" repository](https://github.com/twbs/icons) and licensed under [MIT](https://github.com/twbs/icons/blob/main/LICENSE)
 
 ## TODOs
 
@@ -344,3 +352,18 @@ If you have an idea to improve this project please use the ["NEW Feature Request
 PRs are welcome 😉
 
 To get started, please check out the [CONTRIBUTING.md](CONTRIBUTING.md) guide of this project
+
+### alternatives
+
+an alternative to this package if you want to have github like alerts but do it with a remark plugin instead of a rehype plugin is [remark-github-beta-blockquote-admonitions](https://www.npmjs.com/package/remark-github-beta-blockquote-admonitions)
+
+### optional packages
+
+if you use this package, there are other packages you might want to install too, for example:
+
+- [remark-gfm](https://github.com/remarkjs/remark-gfm), adds support for [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/) (autolink literals, footnotes, strikethrough, tables, tasklists)
+- [remark-breaks](https://github.com/remarkjs/remark-breaks), turns soft line endings (enters) into hard breaks (`<br>`s). GitHub does this in a few places (comments, issues, PRs, and releases)
+
+## icons
+
+the 5 icons used in this package are from ["Bootstrap Icons" repository](https://github.com/twbs/icons) and licensed under [MIT](https://github.com/twbs/icons/blob/main/LICENSE)
