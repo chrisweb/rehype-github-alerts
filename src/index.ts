@@ -97,6 +97,15 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
         return [SKIP]
     }
 
+    // if the first line contains more than the type
+    // drop out of rendering as alert, this is what
+    // GitHub does (as of now)
+    if (headerData.rest.trim() !== '') {
+        if (!headerData.rest.startsWith('\n') && !headerData.rest.startsWith('\r')) {
+            return null
+        }
+    }
+
     // try to find options matching the alert keyword
     const alertOptions = getAlertOptions(headerData.alertType)
 
@@ -111,28 +120,10 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
 
         const alertBodyChildren: ElementContent[] = []
 
-        // if the first line of the blockquote has no hard line break
-        // after the alert type but some text, then both the type
-        // and the text will be in a single text node
-        // headerData rest contains the remaining text without the alert type
-        if (headerData.rest.trim() !== '') {
-            const restAsTextNode: Text = {
-                type: 'text',
-                value: headerData.rest
-            }
-            const paragraphElement: Element = {
-                type: 'element',
-                tagName: 'p',
-                properties: {},
-                children: [restAsTextNode]
-            }
-            alertBodyChildren.push(paragraphElement)
-        }
-
         // for alerts the blockquote first element is always
         // a pragraph but it can have move children then just
         // the alert type text node
-        const remainingFirstParagraphChildren = firstParagraph.children.slice(3, firstParagraph.children.length)
+        const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length)
 
         if (remainingFirstParagraphChildren.length > 0) {
             // if the alert type has a hardline break we remove it
@@ -150,6 +141,17 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
                 }
                 alertBodyChildren.push(paragrahElement)
             } else {
+                // if the first line of the blockquote has no hard line break
+                // after the alert type but some text, then both the type
+                // and the text will be in a single text node
+                // headerData rest contains the remaining text without the alert type
+                if (headerData.rest.trim() !== '') {
+                    const restAsTextNode: Text = {
+                        type: 'text',
+                        value: headerData.rest
+                    }
+                    remainingFirstParagraphChildren.unshift(restAsTextNode)
+                }
                 // if no hard line break (br) take all the remaining
                 // and add them to new paragraph to mimick the initial structure
                 const paragrahElement: Element = {
@@ -157,6 +159,20 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
                     tagName: 'p',
                     properties: {},
                     children: remainingFirstParagraphChildren
+                }
+                alertBodyChildren.push(paragrahElement)
+            }
+        } else {
+            if (headerData.rest.trim() !== '') {
+                const restAsTextNode: Text = {
+                    type: 'text',
+                    value: headerData.rest
+                }
+                const paragrahElement: Element = {
+                    type: 'element',
+                    tagName: 'p',
+                    properties: {},
+                    children: [restAsTextNode]
                 }
                 alertBodyChildren.push(paragrahElement)
             }
