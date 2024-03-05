@@ -94,6 +94,7 @@ function runTests(files, base) {
             }
     
             actual = actual.replaceAll('\r\n', '\n').replaceAll('\n', EOL)
+            expected = expected.replaceAll('\r\n', '\n').replaceAll('\n', EOL)
     
             assert.equal(actual, expected, name)
     
