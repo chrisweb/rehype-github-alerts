@@ -1,6 +1,6 @@
 {
     "name": "rehype-github-alerts",
-    "version": "3.0.0-beta.2",
+    "version": "3.0.0-beta.3",
     "description": "rehype plugin to create alerts (admonitions/callouts)",
     "main": "./dist/index.js",
     "scripts": {
