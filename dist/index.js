@@ -76,16 +76,11 @@ const create = (node, index, parent) => {
     const build = internalOptions.build || defaultBuild;
     const alertBodyChildren = [];
     const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length);
+    const newFirstParagraphChildren = [];
     if (remainingFirstParagraphChildren.length > 0) {
       if (remainingFirstParagraphChildren[0].type === "element" && remainingFirstParagraphChildren[0].tagName === "br") {
         const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length);
-        const paragrahElement = {
-          type: "element",
-          tagName: "p",
-          properties: {},
-          children: remainingChildrenWithoutLineBreak
-        };
-        alertBodyChildren.push(paragrahElement);
+        newFirstParagraphChildren.push(...remainingChildrenWithoutLineBreak);
       } else {
         if (headerData.rest.trim() !== "") {
           const restAsTextNode = {
@@ -94,13 +89,7 @@ const create = (node, index, parent) => {
           };
           remainingFirstParagraphChildren.unshift(restAsTextNode);
         }
-        const paragrahElement = {
-          type: "element",
-          tagName: "p",
-          properties: {},
-          children: remainingFirstParagraphChildren
-        };
-        alertBodyChildren.push(paragrahElement);
+        newFirstParagraphChildren.push(...remainingFirstParagraphChildren);
       }
     } else {
       if (headerData.rest.trim() !== "") {
@@ -108,14 +97,22 @@ const create = (node, index, parent) => {
           type: "text",
           value: headerData.rest
         };
-        const paragrahElement = {
-          type: "element",
-          tagName: "p",
-          properties: {},
-          children: [restAsTextNode]
-        };
-        alertBodyChildren.push(paragrahElement);
+        newFirstParagraphChildren.push(restAsTextNode);
       }
+    }
+    if (newFirstParagraphChildren.length > 0) {
+      const lineBreak = {
+        type: "text",
+        value: "\n"
+      };
+      alertBodyChildren.push(lineBreak);
+      const paragrahElement = {
+        type: "element",
+        tagName: "p",
+        properties: {},
+        children: newFirstParagraphChildren
+      };
+      alertBodyChildren.push(paragrahElement);
     }
     if (node.children.length > 2) {
       alertBodyChildren.push(...node.children.slice(2, node.children.length));

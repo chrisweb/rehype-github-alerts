@@ -125,6 +125,8 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
         // the alert type text node
         const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length)
 
+        const newFirstParagraphChildren: ElementContent[] = []
+
         if (remainingFirstParagraphChildren.length > 0) {
             // if the alert type has a hardline break we remove it
             // to not start the alert with a blank line
@@ -133,13 +135,7 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
             if (remainingFirstParagraphChildren[0].type === 'element' &&
                 remainingFirstParagraphChildren[0].tagName === 'br') {
                 const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length)
-                const paragrahElement: Element = {
-                    type: 'element',
-                    tagName: 'p',
-                    properties: {},
-                    children: remainingChildrenWithoutLineBreak
-                }
-                alertBodyChildren.push(paragrahElement)
+                newFirstParagraphChildren.push(...remainingChildrenWithoutLineBreak)
             } else {
                 // if the first line of the blockquote has no hard line break
                 // after the alert type but some text, then both the type
@@ -154,13 +150,7 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
                 }
                 // if no hard line break (br) take all the remaining
                 // and add them to new paragraph to mimick the initial structure
-                const paragrahElement: Element = {
-                    type: 'element',
-                    tagName: 'p',
-                    properties: {},
-                    children: remainingFirstParagraphChildren
-                }
-                alertBodyChildren.push(paragrahElement)
+                newFirstParagraphChildren.push(...remainingFirstParagraphChildren)
             }
         } else {
             if (headerData.rest.trim() !== '') {
@@ -168,14 +158,23 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
                     type: 'text',
                     value: headerData.rest
                 }
-                const paragrahElement: Element = {
-                    type: 'element',
-                    tagName: 'p',
-                    properties: {},
-                    children: [restAsTextNode]
-                }
-                alertBodyChildren.push(paragrahElement)
+                newFirstParagraphChildren.push(restAsTextNode)
             }
+        }
+
+        if (newFirstParagraphChildren.length > 0) {
+            const lineBreak: Text = {
+                type: 'text',
+                value: '\n'
+            }
+            alertBodyChildren.push(lineBreak)
+            const paragrahElement: Element = {
+                type: 'element',
+                tagName: 'p',
+                properties: {},
+                children: newFirstParagraphChildren
+            }
+            alertBodyChildren.push(paragrahElement)
         }
 
         // outside of the first paragraph there may also be children

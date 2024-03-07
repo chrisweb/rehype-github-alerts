@@ -31,8 +31,11 @@
 > [!INVALID]
 > test for invalid alert type
 
-> [!NOTE]  
-> - note
-> - with
-> - a
-> - list
+> [!WARNING]  
+> foo **bar**
+
+> [!TIP]
+> [link](https://www.example.com)
+
+> [!NOTE] not a valid title, renders as blockquote
+> Hello World!
