@@ -47,10 +47,10 @@
     },
     "devDependencies": {
         "@types/hast": "^3.0.4",
-        "@typescript-eslint/eslint-plugin": "^7.1.1",
-        "esbuild": "^0.20.1",
+        "@typescript-eslint/eslint-plugin": "^7.8.0",
+        "esbuild": "^0.21.2",
         "eslint": "^8.57.0",
-        "typescript": "^5.4.2",
+        "typescript": "^5.4.5",
         "create-gfm-fixtures": "^1.1.0",
         "unified": "^11.0.4",
         "remark-parse": "^11.0.0",
