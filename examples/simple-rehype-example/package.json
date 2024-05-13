@@ -12,10 +12,10 @@
     "dependencies": {
         "unified": "^11.0.4",
         "remark-parse": "^11.0.0",
-        "remark-rehype": "^11.0.0",
+        "remark-rehype": "^11.1.0",
         "rehype-stringify": "^10.0.0",
         "to-vfile": "^8.0.0",
-        "vfile-reporter": "^8.1.0",
+        "vfile-reporter": "^8.1.1",
         "remark-breaks": "^4.0.0"
     }
 }
