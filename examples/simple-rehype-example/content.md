@@ -3,8 +3,8 @@
 > [!NOTE]  
 > this is an example "note" (with two spaces after "[!NOTE]")
 
-> [!IMPORTANT]
-> this is an example "important" (with NO spaces after "[!IMPORTANT]")
+> [!CAUTION]
+> this is an example "caution" (with NO spaces after "[!CAUTION]")
 
 > [!NOTE]  
 > this is an example "note" (with two spaces after "[!NOTE]") and a second line of content, containing a "strong" element and a link
@@ -37,5 +37,5 @@
 > [!TIP]
 > [link](https://www.example.com)
 
-> [!NOTE] not a valid title, renders as blockquote
+> [!WARNING] not a valid title, renders as blockquote
 > Hello World!
