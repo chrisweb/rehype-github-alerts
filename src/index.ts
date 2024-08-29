@@ -197,7 +197,7 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
 
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 export const defaultBuild: DefaultBuildType = (alertOptions, originalChildren) => {
 
     let alertIconElement: Element | undefined

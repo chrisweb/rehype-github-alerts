@@ -10,7 +10,7 @@
     "author": "chrisweb (https://chris.lu)",
     "license": "MIT",
     "dependencies": {
-        "unified": "^11.0.4",
+        "unified": "^11.0.5",
         "remark-parse": "^11.0.0",
         "remark-rehype": "^11.1.0",
         "rehype-stringify": "^10.0.0",
