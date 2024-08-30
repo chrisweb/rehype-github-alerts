@@ -51,7 +51,7 @@ npm i rehype-github-alerts --save-exact
 
 You can now see a live demo of this plugin on my blog, especially in my web_development [chris.lu/web_development](https://chris.lu/web_development) section
 
-I also published a Next.js [Next.js static MDX blog](http://localhost:3000/web_development/tutorials/next-js-static-mdx-blog) tutorial on my blog, the [GitHub-like alerts using the rehype-github-alerts plugin](http://localhost:3000/web_development/tutorials/next-js-static-mdx-blog/github-like-alerts-plugin) page is about how to use **rehype-github-alerts** with **next/js**
+I also published a Next.js [Next.js static MDX blog](https://chris.lu/web_development/tutorials/next-js-static-mdx-blog) tutorial on my blog, the [GitHub-like alerts using the rehype-github-alerts plugin](https://chris.lu/web_development/tutorials/next-js-static-mdx-blog/github-like-alerts-plugin) page is about how to use **rehype-github-alerts** with **next/js**
 
 ## examples
 
