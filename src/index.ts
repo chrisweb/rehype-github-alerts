@@ -121,14 +121,14 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
         const alertBodyChildren: ElementContent[] = []
 
         // for alerts the blockquote first element is always
-        // a pragraph but it can have move children then just
+        // a paragraph but it can have move children then just
         // the alert type text node
         const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length)
 
         const newFirstParagraphChildren: ElementContent[] = []
 
         if (remainingFirstParagraphChildren.length > 0) {
-            // if the alert type has a hardline break we remove it
+            // if the alert type has a hard line break we remove it
             // to not start the alert with a blank line
             // meaning we start the slice at 2 to not take
             // the br element and new line text nodes
@@ -149,7 +149,7 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
                     remainingFirstParagraphChildren.unshift(restAsTextNode)
                 }
                 // if no hard line break (br) take all the remaining
-                // and add them to new paragraph to mimick the initial structure
+                // and add them to new paragraph to mimic the initial structure
                 newFirstParagraphChildren.push(...remainingFirstParagraphChildren)
             }
         } else {
@@ -168,13 +168,13 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
                 value: '\n'
             }
             alertBodyChildren.push(lineBreak)
-            const paragrahElement: Element = {
+            const paragraphElement: Element = {
                 type: 'element',
                 tagName: 'p',
                 properties: {},
                 children: newFirstParagraphChildren
             }
-            alertBodyChildren.push(paragrahElement)
+            alertBodyChildren.push(paragraphElement)
         }
 
         // outside of the first paragraph there may also be children
