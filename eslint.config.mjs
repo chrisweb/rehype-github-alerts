@@ -20,22 +20,18 @@ export default [
         plugins: {
             '@typescript-eslint': typescriptEslint,
         },
-
         languageOptions: {
             globals: {
                 ...globals.browser,
                 ...globals.node,
             },
-
             parser: tsParser,
             ecmaVersion: 'latest',
             sourceType: 'module',
         },
-
         rules: {
             quotes: ['error', 'single'],
             semi: ['error', 'never'],
-
             '@typescript-eslint/naming-convention': ['error', {
                 selector: 'interface',
                 format: ['PascalCase'],
