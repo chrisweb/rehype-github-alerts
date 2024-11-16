@@ -422,3 +422,7 @@ if you use this package, there are other packages you might want to install too,
 ## icons
 
 the 5 icons used in this package are from ["Bootstrap Icons" repository](https://github.com/twbs/icons) and licensed under [MIT](https://github.com/twbs/icons/blob/main/LICENSE)
+
+## note to self
+
+Have downgraded eslint for now, ESLint [issue #19134](https://github.com/eslint/eslint/issues/19134) explains the problem and there is a [PR #10339](https://github.com/typescript-eslint/typescript-eslint/pull/10339) getting merged anytime soon
