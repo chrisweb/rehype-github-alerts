@@ -26,7 +26,7 @@
 > **foo** [top](#rehype-github-alerts-test)
 
 >>> [!NOTE]
->>> test for nested blockquotes
+>>> test for nested blockquote elements
 
 > [!INVALID]
 > test for invalid alert type

@@ -232,7 +232,7 @@ will yield the following HTML output:
 > if you don't want to manually add two spaces after each line, then you need to install the [remark-breaks](https://github.com/remarkjs/remark-breaks) plugin  
 ```
 
-**option 2:** If you do NOT want to have to add two spaces manually after each line, then I recommend you install the plugin called [remark-breaks](https://github.com/remarkjs/remark-breaks), **remark-breaks** will mimick the behavior you experience on GitHub, by automatically turning a soft line break (when you hit `Enter` at the end of a line) into hard line breaks  
+**option 2:** If you do NOT want to have to add two spaces manually after each line, then I recommend you install the plugin called [remark-breaks](https://github.com/remarkjs/remark-breaks), **remark-breaks** will mimic the behavior you experience on GitHub, by automatically turning a soft line break (when you hit `Enter` at the end of a line) into hard line breaks  
 
 As noted in the readme of the [remark-breaks](https://github.com/remarkjs/remark-breaks) package README, the purpose of the **remark-breaks** is to:
 
@@ -416,7 +416,7 @@ an alternative to this package if you want to have github like alerts but do it 
 
 if you use this package, there are other packages you might want to install too, for example:
 
-- [remark-gfm](https://github.com/remarkjs/remark-gfm), adds support for [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/) (autolink literals, footnotes, strikethrough, tables, tasklists)
+- [remark-gfm](https://github.com/remarkjs/remark-gfm), adds support for [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/) (autolink literals, footnotes, strikethrough, tables, task lists)
 - [remark-breaks](https://github.com/remarkjs/remark-breaks), turns soft line endings (enters) into hard breaks (`<br>`s). GitHub does this in a few places (comments, issues, PRs, and releases)
 
 ## icons
