@@ -106,13 +106,13 @@ const create = (node, index, parent) => {
         value: "\n"
       };
       alertBodyChildren.push(lineBreak);
-      const paragrahElement = {
+      const paragraphElement = {
         type: "element",
         tagName: "p",
         properties: {},
         children: newFirstParagraphChildren
       };
-      alertBodyChildren.push(paragrahElement);
+      alertBodyChildren.push(paragraphElement);
     }
     if (node.children.length > 2) {
       alertBodyChildren.push(...node.children.slice(2, node.children.length));
