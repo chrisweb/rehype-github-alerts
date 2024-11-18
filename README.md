@@ -153,6 +153,109 @@ add the following styles to your css to mimic GitHub's styling of alerts:
 }
 ```
 
+> [!NOTE]  
+> The above stylesheet is to get you started, it is not an exact 1 to 1 copy of what GitHub uses to style their alerts. Their stylesheet changes over time, so it is hard to keep track of the exact styling they use, but you should be able to adjust the styles yourself quickly by looking at [GitHubs CSS](https://github.com/orgs/community/discussions/16925)
+
+### GitHub font family
+
+If you also want to mimic GitHubs font choice, then you should set **font-family** (for the title and content of your alerts) to this:
+
+```css
+:root {
+    --frontFamily-github: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+    --frontWeight-github: 500;
+}
+
+.markdown-alert {
+    font-family: var(--frontFamily-github);
+}
+
+.markdown-alert-title {
+    font-weight: var(--frontWeight-github, 500);
+}
+```
+
+We create two new CSS variables and then use the **frontFamily-github** variable to set the font family of all the **markdown-alert** elements, and then in the title class we use **frontWeight-github** to make the text a bit bolder
+
+### GitHub octicons
+
+This library uses the [twbs icons](https://icons.getbootstrap.com/), which means that the icons in the alert titles are similar but NOT exactly the same ones that twitter uses
+
+GitHub has opensourced their [Primer](https://primer.style/) design system which includes icons that GitHub called [octicons](https://primer.style/foundations/icons) 😉
+
+Here are the 5 icons you will need (they offer two versions a 16px and a 24px):
+
+* **Note** uses the [info](https://primer.style/foundations/icons/info-16) icon ([16px](https://primer.style/foundations/icons/info-16) / [24px](https://primer.style/foundations/icons/info-24))
+* **Tip** uses the [light-bulb](https://primer.style/foundations/icons/light-bulb-16) icon ([16px](https://primer.style/foundations/icons/light-bulb-16) / [24px](https://primer.style/foundations/icons/light-bulb-24))
+* **Important** uses the [report](https://primer.style/foundations/icons/report-16) icon ([16px](https://primer.style/foundations/icons/report-16) / [24px](https://primer.style/foundations/icons/report-24))
+* **Warning** uses the [alert](https://primer.style/foundations/icons/alert-16) icon ([16px](https://primer.style/foundations/icons/alert-16) / [24px](https://primer.style/foundations/icons/alert-24))
+* **Caution** uses the [stop](https://primer.style/foundations/icons/stop-16) icon ([16px](https://primer.style/foundations/icons/stop-16) / [24px](https://primer.style/foundations/icons/stop-24))
+
+If you search for [@primer/octicons](https://www.npmjs.com/search?q=%40primer%2Focticons) on npm you will find that primer offers different packages making it easy to include the icons into your project like [@primer/octicons-react](@primer/octicons-react), there are also community packages like the [svelte-octicons](https://www.npmjs.com/package/svelte-octicons), and they also have a lot of info and examples in their [guides section](https://primer.style/guides/introduction)
+
+#### Rehype GitHub Alerts with octicons
+
+First we install the octicon package:
+
+```shell
+npm i @primer/octicons --save-exact
+```
+
+If you use typescript, also install the types:
+
+```shell
+npm i @types/primer__octicons --save-exact --save-dev
+```
+
+Next we import the icons in our configuration file, we create an options object for rehype-github-alerts, we use the 5 octicons for each alert and finally use those options in the code that sets up the rehype plugins for your project:
+
+```ts
+import { rehypeGithubAlerts, IOptions as rehypeGithubAlertsOptionsType } from 'rehype-github-alerts'
+import octicons from '@primer/octicons'
+
+// this rehype-github-alerts configuration replaces
+// the default icons with octicons
+const rehypeGithubAlertsOptions: rehypeGithubAlertsOptionsType = {
+    alerts: [
+        {
+            keyword: 'NOTE',
+            icon: octicons.info.toSVG(),
+            title: 'Note',
+        },
+        {
+            keyword: 'TIP',
+            icon: octicons['light-bulb'].toSVG(),
+            title: 'Tip',
+        },
+        {
+            keyword: 'IMPORTANT',
+            icon: octicons.report.toSVG(),
+            title: 'Important',
+        },
+        {
+            keyword: 'WARNING',
+            icon: octicons.alert.toSVG(),
+            title: 'Warning',
+        },
+        {
+            keyword: 'CAUTION',
+            icon: octicons.stop.toSVG(),
+            title: 'Caution',
+        },
+    ]
+}
+
+// we add rehype-github-alerts as well as the options
+// to the rehype plugins configuration
+rehypePlugins: [[rehypeGithubAlerts, rehypeGithubAlertsOptions]],
+```
+
+The output of `.toSVG()` will be an SVG like this:
+
+```html
+<svg version="1.1" width="16" height="16" viewBox="0 0 16 16" class="octicon octicon-info" aria-hidden="true"></svg>
+```
+
 ## options
 
 `options` (optional)
