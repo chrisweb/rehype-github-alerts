@@ -29,8 +29,11 @@
     ],
     "type": "module",
     "exports": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        },
+        "./styling/css/index.css": "./dist/styling/css/index.css"
     },
     "files": [
         "package*.json",
