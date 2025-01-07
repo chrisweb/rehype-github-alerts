@@ -81,5 +81,8 @@
         "atLeast": 100,
         "detail": true,
         "strict": true
+    },
+    "funding": {
+        "url": "https://github.com/sponsors/chrisweb"
     }
 }
