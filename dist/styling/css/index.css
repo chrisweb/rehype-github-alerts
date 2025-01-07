@@ -1,0 +1,64 @@
+/* src/styling/css/index.css */
+:root {
+  --rehype-github-alerts-default-color: rgb(208, 215, 222);
+  --rehype-github-alerts-note-color: rgb(9, 105, 218);
+  --rehype-github-alerts-tip-color: rgb(26, 127, 55);
+  --rehype-github-alerts-important-color: rgb(130, 80, 223);
+  --rehype-github-alerts-warning-color: rgb(191, 135, 0);
+  --rehype-github-alerts-caution-color: rgb(207, 34, 46);
+  --rehype-github-alerts-default-space: 1rem;
+}
+.markdown-alert {
+  padding: calc(var(--rehype-github-alerts-default-space) / 2) var(--rehype-github-alerts-default-space);
+  margin-bottom: var(--rehype-github-alerts-default-space);
+  border-left: calc(var(--rehype-github-alerts-default-space) / 4) solid var(--rehype-github-alerts-default-color);
+}
+.markdown-alert > :first-child {
+  margin-top: 0;
+}
+.markdown-alert > :last-child {
+  margin-bottom: 0;
+}
+.markdown-alert-note {
+  border-left-color: var(--rehype-github-alerts-note-color);
+}
+.markdown-alert-tip {
+  border-left-color: var(--rehype-github-alerts-tip-color);
+}
+.markdown-alert-important {
+  border-left-color: var(--rehype-github-alerts-important-color);
+}
+.markdown-alert-warning {
+  border-left-color: var(--rehype-github-alerts-warning-color);
+}
+.markdown-alert-caution {
+  border-left-color: var(--rehype-github-alerts-caution-color);
+}
+.markdown-alert-title {
+  display: flex;
+  margin-bottom: calc(var(--rehype-github-alerts-default-space) / 4);
+  align-items: center;
+}
+.markdown-alert-title > svg {
+  margin-right: calc(var(--rehype-github-alerts-default-space) / 2);
+}
+.markdown-alert-note .markdown-alert-title {
+  color: var(--rehype-github-alerts-note-color);
+  fill: var(--rehype-github-alerts-note-color);
+}
+.markdown-alert-tip .markdown-alert-title {
+  color: var(--rehype-github-alerts-tip-color);
+  fill: var(--rehype-github-alerts-tip-color);
+}
+.markdown-alert-important .markdown-alert-title {
+  color: var(--rehype-github-alerts-important-color);
+  fill: var(--rehype-github-alerts-important-color);
+}
+.markdown-alert-warning .markdown-alert-title {
+  color: var(--rehype-github-alerts-warning-color);
+  fill: var(--rehype-github-alerts-warning-color);
+}
+.markdown-alert-caution .markdown-alert-title {
+  color: var(--rehype-github-alerts-caution-color);
+  fill: var(--rehype-github-alerts-caution-color);
+}
