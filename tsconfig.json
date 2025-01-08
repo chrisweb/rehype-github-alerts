@@ -21,6 +21,7 @@
         "moduleResolution": "nodenext",
         "noImplicitAny": true,
         "strictNullChecks": true,
-        "strictPropertyInitialization": true
+        "strictPropertyInitialization": true,
+        "skipLibCheck": true
     }
 }
