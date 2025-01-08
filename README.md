@@ -3,7 +3,7 @@
 
 # rehype-github-alerts
 
-## Beta available
+## Beta (4.0.0) available: CSS in dist and external Octicons
 
 > [!IMPORTANT]  
 > rehype-github-alerts v4.0.0 beta 1 is now (08.10.2024) available: the [css_and_external_octicons_experiment](https://github.com/chrisweb/rehype-github-alerts/tree/css_and_external_octicons_experiment) branch has an updated [README with a "beta notes" chapter](https://github.com/chrisweb/rehype-github-alerts/tree/css_and_external_octicons_experiment?tab=readme-ov-file#beta-notes), I recommend you start there if you are interested in trying out the new beta
