@@ -27,31 +27,26 @@ export const rehypeGithubAlerts = (options: IOptions) => {
         alerts: [
             {
                 keyword: 'NOTE',
-                // bootstrap icon: info-circle
                 icon: octicons.info.toSVG(),
                 title: 'Note',
             },
             {
                 keyword: 'IMPORTANT',
-                // bootstrap icon: exclamation-square
                 icon: octicons.report.toSVG(),
                 title: 'Important',
             },
             {
                 keyword: 'WARNING',
-                // bootstrap icon: exclamation-triangle
                 icon: octicons.alert.toSVG(),
                 title: 'Warning',
             },
             {
                 keyword: 'TIP',
-                // bootstrap icon: lightbulb
                 icon: octicons['light-bulb'].toSVG(),
                 title: 'Tip',
             },
             {
                 keyword: 'CAUTION',
-                // bootstrap icon: exclamation-octagon
                 icon: octicons.stop.toSVG(),
                 title: 'Caution',
             },
