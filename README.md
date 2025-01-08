@@ -3,6 +3,15 @@
 
 # rehype-github-alerts
 
+## Beta available
+
+> [!IMPORTANT]  
+> rehype-github-alerts v4.0.0 beta 1 (08.10.2024): [css_and_external_octicons_experiment](https://github.com/chrisweb/rehype-github-alerts/tree/css_and_external_octicons_experiment) branch has an updated [README with a "beta notes" chapter](https://github.com/chrisweb/rehype-github-alerts/tree/css_and_external_octicons_experiment?tab=readme-ov-file#beta-notes)
+>  
+> feedback is welcome 🙂
+
+## Introduction
+
 rehype plugin to create alerts (admonitions/callouts), mimicking the way alerts get rendered on github.com (based on this [GitHub community "Alerts" discussion](https://github.com/orgs/community/discussions/16925)), currently 5 types of alerts are supported:
 
 > [!NOTE]  
