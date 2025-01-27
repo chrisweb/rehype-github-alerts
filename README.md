@@ -3,13 +3,6 @@
 
 # rehype-github-alerts
 
-## Beta (4.0.0) available: CSS in dist and external Octicons
-
-> [!IMPORTANT]  
-> rehype-github-alerts v4.0.0 beta 1 is now (08.10.2024) available: the [css_and_external_octicons_experiment](https://github.com/chrisweb/rehype-github-alerts/tree/css_and_external_octicons_experiment) branch has an updated [README with a "beta notes" chapter](https://github.com/chrisweb/rehype-github-alerts/tree/css_and_external_octicons_experiment?tab=readme-ov-file#beta-notes), I recommend you start there if you are interested in trying out the new beta
->  
-> feedback is welcome 🙂
-
 ## Introduction
 
 rehype plugin to create alerts (admonitions/callouts), mimicking the way alerts get rendered on github.com (based on this [GitHub community "Alerts" discussion](https://github.com/orgs/community/discussions/16925)), currently 5 types of alerts are supported:
@@ -50,283 +43,56 @@ the markdown syntax for the 5 examples above is as follows:
 
 this is a zero configuration package as all [options](#options) have defaults, but you can use them if you wish to modify default behavior, like for example by default 3 alerts are defined (with a default icon), use `options.alerts` to replace them with your own setup, there is also a default build that will create an output that mimics what GitHub does, but you can change the build to create whatever HTML suits your needs best, check out the ["options" chapter](#options) to learn more about customization
 
-## BETA Notes
-
-The first beta "v4.0.0 beta 0" includes two major changes:
-
-* the first one is that the octicons now get loaded from an external source. After debating this for some time I think that this solution is better for all devs that use the package in their project. The icons are not the twbs icons anymore but the [GitHub Prime Octicons](https://primer.style/foundations/icons/). The dependency in the package.json is marked as optional, as well as the octicons types. The icons package should get installed if you plan on using them and the types if your project is written in Typescript. By using an external source the project itself has also become much smaller (I know it often gets used on the backend, but still)
-* the second big change is that I added the css as physical file to the distribution; this CSS can get imported if the project supports it, Next.js for example does, and I did a [prototype](https://github.com/chrisweb/test_rehype-github-alerts_styling), in which I import the css file from rehype-github-alerts into the Next.js [Layout.tsx](https://github.com/chrisweb/test_rehype-github-alerts_styling/blob/main/app/layout.tsx) file (you can have a look at the [source code on GitHub](https://github.com/chrisweb/test_rehype-github-alerts_styling)). Another solution some developers use, is the [webpack CSS loader](https://www.npmjs.com/package/css-loader).
-
-To install the latest beta and also the octicons, use the following command:
-
-```shell
-npm i rehype-github-alerts@beta @primer/octicons@latest --save-exact
-```
-
-> [!IMPORTANT]  
-> If you want to use v4 beta 0, and you also want to have the new octicons then you need to make sure that you do NOT omit optional dependencies (as the icons are not bundled in this package anymore, but an optional dependency)
->  
-> You can either install the octicons manually: `npm i @primer/octicons --save-exact`
->  
-> Or you could you use the npm include flag to always install optional dependencies: `npm i --include=optional`
-
-To only update the plugin use:
-
-```shell
-npm i rehype-github-alerts@beta --save-exact
-```
-
-If you only update the plugin an want to keep using the twbs icons which v3 was using, then you need to update your build (in the plugin options) like this:
-
-```js
-alerts: [
-    {
-        keyword: 'NOTE',
-        // bootstrap icon: info-circle
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg>',
-        title: 'Note',
-    },
-    {
-        keyword: 'IMPORTANT',
-        // bootstrap icon: exclamation-square
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/><path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/></svg>',
-        title: 'Important',
-    },
-    {
-        keyword: 'WARNING',
-        // bootstrap icon: exclamation-triangle
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/><path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/></svg>',
-        title: 'Warning',
-    },
-    {
-        keyword: 'TIP',
-        // bootstrap icon: lightbulb
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/></svg>',
-        title: 'Tip',
-    },
-    {
-        keyword: 'CAUTION',
-        // bootstrap icon: exclamation-octagon
-        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1z"/><path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/></svg>',
-        title: 'Caution',
-    },
-],
-```
-
 ## installation
 
+> [!NOTE]  
+> The [GitHub Primer Octicons](https://primer.style/foundations/icons/) are an external dependency that is optional (as well as the octicons types).
+
+To install rehype-github-alerts and also the octicons, use the following command:
+
 ```shell
-npm i rehype-github-alerts --save-exact
+npm i rehype-github-alerts@latest @primer/octicons@latest --save-exact
 ```
-
-## Demo
-
-You can now see a live demo of this plugin on my blog, especially in my web_development [chris.lu/web_development](https://chris.lu/web_development) section
-
-I also published a Next.js [Next.js static MDX blog](https://chris.lu/web_development/tutorials/next-js-static-mdx-blog) tutorial on my blog, the [GitHub-like alerts using the rehype-github-alerts plugin](https://chris.lu/web_development/tutorials/next-js-static-mdx-blog/github-like-alerts-plugin) page is about how to use **rehype-github-alerts** with **next/js**
 
 ## examples
 
-### rehype example
+### Rehype example
 
-check out the [readme of the rehype example](./examples/simple-rehype-example/README.md) for more details about this example, all the source code is located in `examples/simple-rehype-example/`
+For a simple example have a look at the ["rehype example" README](./examples/simple-rehype-example/README.md) (the source code is located in `examples/simple-rehype-example/`)
 
-### how GitHub renders alerts
+### Next.js tutorial
+
+I published a Next.js [Next.js MDX tutorial](https://chris.lu/web_development/tutorials/next-js-static-mdx-blog) on my blog, the tutorial has a page about [using the **rehype-github-alerts** plugin with **Next.js**](https://chris.lu/web_development/tutorials/next-js-static-mdx-blog/github-like-alerts-plugin)
+
+### Customized plugin Demo
+
+You can now see a live demo of this plugin on my blog, especially in my web_development [chris.lu/web_development](https://chris.lu/web_development) section, the source code is in the [chris.lu repository](https://github.com/chrisweb/chris.lu), the configuration I used can be found in the next.config.ts file and the styling is in /app/global.css
+
+### How does GitHub render alerts
 
 I created [an issue on github](https://github.com/chrisweb/rehype-github-alerts/issues/1) to check how github is rendering alerts (will add more examples over time, based on feedback)
 
 ## styling
 
-add the following styles to your css to mimic GitHub's styling of alerts:
+If you want to add styling / CSS similar to what GitHub uses, then you can get started by using the stylesheet that is included in the build of this package. The stylesheet is in [dist/styling/css/index.css](/dist/styling/css/index.css).
 
-```css
-:root {
-    --github-alert-default-color: rgb(208, 215, 222);
-    --github-alert-note-color: rgb(9, 105, 218);
-    --github-alert-tip-color: rgb(26, 127, 55);
-    --github-alert-important-color: rgb(130, 80, 223);
-    --github-alert-warning-color: rgb(191, 135, 0);
-    --github-alert-caution-color: rgb(207, 34, 46);
-}
+You can either open the file and copy what you need and paste it into your own CSS file
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --github-alert-default-color: rgb(48, 54, 61);
-        --github-alert-note-color: rgb(31, 111, 235);
-        --github-alert-tip-color: rgb(35, 134, 54);
-        --github-alert-important-color: rgb(137, 87, 229);
-        --github-alert-warning-color: rgb(158, 106, 3);
-        --github-alert-caution-color: rgb(248, 81, 73);
-    }
-}
+Or you could import the stylesheet in a Next.js layout file like this:
 
-.markdown-alert {
-    padding: 0.5rem 1rem;
-    margin-bottom: 16px;
-    border-left: 0.25em solid var(--github-alert-default-color);
-}
-
-.markdown-alert>:first-child {
-    margin-top: 0;
-}
-
-.markdown-alert>:last-child {
-    margin-bottom: 0;
-}
-
-.markdown-alert-note {
-    border-left-color: var(--github-alert-note-color);
-}
-
-.markdown-alert-tip {
-    border-left-color: var(--github-alert-tip-color);
-}
-
-.markdown-alert-important {
-    border-left-color: var(--github-alert-important-color);
-}
-
-.markdown-alert-warning {
-    border-left-color: var(--github-alert-warning-color);
-}
-
-.markdown-alert-caution {
-    border-left-color: var(--github-alert-caution-color);
-}
-
-.markdown-alert-title {
-    display: flex;
-    margin-bottom: 4px;
-    align-items: center;
-}
-
-.markdown-alert-title>svg {
-    margin-right: 8px;
-}
-
-.markdown-alert-note .markdown-alert-title {
-    color: var(--github-alert-note-color);
-}
-
-.markdown-alert-tip .markdown-alert-title {
-    color: var(--github-alert-tip-color);
-}
-
-.markdown-alert-important .markdown-alert-title {
-    color: var(--github-alert-important-color);
-}
-
-.markdown-alert-warning .markdown-alert-title {
-    color: var(--github-alert-warning-color);
-}
-
-.markdown-alert-caution .markdown-alert-title {
-    color: var(--github-alert-caution-color);
-}
+```js
+import '@/node_modules/rehype-github-alerts/dist/styling/css/index.css'
 ```
 
-> [!NOTE]  
-> The above stylesheet is to get you started, it is not an exact 1 to 1 copy of what GitHub uses to style their alerts. Their stylesheet changes over time, so it is hard to keep track of the exact styling they use, but you should be able to adjust the styles yourself quickly by looking at [GitHubs CSS](https://github.com/orgs/community/discussions/16925)
+There is an example in the layout file of the [Next.js MDX starterkit](https://github.com/chrisweb/next-js-static-first-mdx-starterkit_tutorial_chris.lu/blob/92500597d8152910aabec0bf9ea56477dca3e1b0/app/layout.tsx) repository
 
-### GitHub font family
+Another option is to use the [webpack CSS loader](https://www.npmjs.com/package/css-loader) to include the css file into your builds
 
-If you also want to mimic GitHubs font choice, then you should set **font-family** (for the title and content of your alerts) to this:
+### icons
 
-```css
-:root {
-    --frontFamily-github: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
-    --frontWeight-github: 500;
-}
+In v4 we switched to using the [GitHub Primer Octicons](https://primer.style/foundations/icons/)
 
-.markdown-alert {
-    font-family: var(--frontFamily-github);
-}
-
-.markdown-alert-title {
-    font-weight: var(--frontWeight-github, 500);
-}
-```
-
-We create two new CSS variables and then use the **frontFamily-github** variable to set the font family of all the **markdown-alert** elements, and then in the title class we use **frontWeight-github** to make the text a bit bolder
-
-### GitHub octicons
-
-This library uses the [twbs icons](https://icons.getbootstrap.com/), which means that the icons in the alert titles are similar but NOT exactly the same ones that twitter uses
-
-GitHub has [open-sourced](https://en.wiktionary.org/wiki/open-sourced#English) their [Primer](https://primer.style/) design system which includes icons that GitHub called [octicons](https://primer.style/foundations/icons) 😉
-
-Here are the 5 icons you will need (they offer two versions a 16px and a 24px):
-
-* **Note** uses the [info](https://primer.style/foundations/icons/info-16) icon ([16px](https://primer.style/foundations/icons/info-16) / [24px](https://primer.style/foundations/icons/info-24))
-* **Tip** uses the [light-bulb](https://primer.style/foundations/icons/light-bulb-16) icon ([16px](https://primer.style/foundations/icons/light-bulb-16) / [24px](https://primer.style/foundations/icons/light-bulb-24))
-* **Important** uses the [report](https://primer.style/foundations/icons/report-16) icon ([16px](https://primer.style/foundations/icons/report-16) / [24px](https://primer.style/foundations/icons/report-24))
-* **Warning** uses the [alert](https://primer.style/foundations/icons/alert-16) icon ([16px](https://primer.style/foundations/icons/alert-16) / [24px](https://primer.style/foundations/icons/alert-24))
-* **Caution** uses the [stop](https://primer.style/foundations/icons/stop-16) icon ([16px](https://primer.style/foundations/icons/stop-16) / [24px](https://primer.style/foundations/icons/stop-24))
-
-If you search for [@primer/octicons](https://www.npmjs.com/search?q=%40primer%2Focticons) on npm you will find that primer offers different packages making it easy to include the icons into your project like [@primer/octicons-react](@primer/octicons-react), there are also community packages like the [svelte-octicons](https://www.npmjs.com/package/svelte-octicons), and they also have a lot of info and examples in their [guides section](https://primer.style/guides/introduction)
-
-#### Rehype GitHub Alerts with octicons
-
-First we install the octicon package:
-
-```shell
-npm i @primer/octicons --save-exact
-```
-
-If you use typescript, also install the types:
-
-```shell
-npm i @types/primer__octicons --save-exact --save-dev
-```
-
-Next we import the icons in our configuration file, we create an options object for rehype-github-alerts, we use the 5 octicons for each alert and finally use those options in the code that sets up the rehype plugins for your project:
-
-```ts
-import { rehypeGithubAlerts, IOptions as rehypeGithubAlertsOptionsType } from 'rehype-github-alerts'
-import octicons from '@primer/octicons'
-
-// this rehype-github-alerts configuration replaces
-// the default icons with octicons
-const rehypeGithubAlertsOptions: rehypeGithubAlertsOptionsType = {
-    alerts: [
-        {
-            keyword: 'NOTE',
-            icon: octicons.info.toSVG(),
-            title: 'Note',
-        },
-        {
-            keyword: 'TIP',
-            icon: octicons['light-bulb'].toSVG(),
-            title: 'Tip',
-        },
-        {
-            keyword: 'IMPORTANT',
-            icon: octicons.report.toSVG(),
-            title: 'Important',
-        },
-        {
-            keyword: 'WARNING',
-            icon: octicons.alert.toSVG(),
-            title: 'Warning',
-        },
-        {
-            keyword: 'CAUTION',
-            icon: octicons.stop.toSVG(),
-            title: 'Caution',
-        },
-    ]
-}
-
-// we add rehype-github-alerts as well as the options
-// to the rehype plugins configuration
-rehypePlugins: [[rehypeGithubAlerts, rehypeGithubAlertsOptions]],
-```
-
-The output of `.toSVG()` will be an SVG like this:
-
-```html
-<svg version="1.1" width="16" height="16" viewBox="0 0 16 16" class="octicon octicon-info" aria-hidden="true"></svg>
-```
+If you prefer using other icons like the [twbs icons](https://icons.getbootstrap.com/), then have a look at the [v3 icons build](#v3-icons-build) chapter
 
 ## options
 
@@ -393,6 +159,46 @@ will yield the following HTML output:
     I'm a note (created using a custom build)
 </div>
 ```
+
+#### v3 icons build
+
+If you migrate from a previous version to v4 and want to keep the [twbs icons](https://icons.getbootstrap.com/), then you need to update your build (in the plugin options) like this:
+
+```js
+alerts: [
+    {
+        keyword: 'NOTE',
+        // bootstrap icon: info-circle
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg>',
+        title: 'Note',
+    },
+    {
+        keyword: 'IMPORTANT',
+        // bootstrap icon: exclamation-square
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/><path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/></svg>',
+        title: 'Important',
+    },
+    {
+        keyword: 'WARNING',
+        // bootstrap icon: exclamation-triangle
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/><path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/></svg>',
+        title: 'Warning',
+    },
+    {
+        keyword: 'TIP',
+        // bootstrap icon: lightbulb
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a1.964 1.964 0 0 0-.453-.618A5.984 5.984 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/></svg>',
+        title: 'Tip',
+    },
+    {
+        keyword: 'CAUTION',
+        // bootstrap icon: exclamation-octagon
+        icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1z"/><path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/></svg>',
+        title: 'Caution',
+    },
+],
+```
+
 
 ## about "soft line breaks" support
 
