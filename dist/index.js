@@ -46,7 +46,7 @@ const create = (node, index, parent) => {
   if (node.tagName !== "blockquote") {
     return [SKIP];
   }
-  if (!node.children) {
+  if (node.children.length < 1) {
     return null;
   }
   const firstParagraph = node.children.find((child) => {
@@ -69,7 +69,7 @@ const create = (node, index, parent) => {
     return [SKIP];
   }
   if (typeof parent !== "undefined" && typeof index !== "undefined") {
-    const build = internalOptions.build || defaultBuild;
+    const build = internalOptions.build ?? defaultBuild;
     const alertBodyChildren = [];
     const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length);
     const newFirstParagraphChildren = [];
@@ -180,8 +180,8 @@ const extractHeaderData = (paragraph) => {
     }
   }
   if (header.type === "text") {
-    const match = header.value.match(/\[!(.*?)\]/);
-    if (match === null || typeof match.input === "undefined") {
+    const match = /\[!(.*?)\]/.exec(header.value);
+    if (!match?.input) {
       return null;
     }
     if (match.input.length > match[0].length) {

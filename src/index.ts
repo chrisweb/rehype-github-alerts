@@ -72,7 +72,7 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
     }
 
     // make sure the blockquote is not empty
-    if (!node.children) {
+    if (node.children.length < 1) {
         return null
     }
 
@@ -112,7 +112,7 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
     if (typeof parent !== 'undefined' && typeof index !== 'undefined') {
 
         // use a build to convert the blockquote into an alert
-        const build = internalOptions.build || defaultBuild
+        const build = internalOptions.build ?? defaultBuild
 
         const alertBodyChildren: ElementContent[] = []
 
@@ -128,8 +128,10 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
             // to not start the alert with a blank line
             // meaning we start the slice at 2 to not take
             // the br element and new line text nodes
-            if (remainingFirstParagraphChildren[0].type === 'element' &&
-                remainingFirstParagraphChildren[0].tagName === 'br') {
+            if (
+                remainingFirstParagraphChildren[0].type === 'element' &&
+                remainingFirstParagraphChildren[0].tagName === 'br'
+            ) {
                 const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length)
                 newFirstParagraphChildren.push(...remainingChildrenWithoutLineBreak)
             } else {
@@ -181,7 +183,7 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
 
         const alertElement = build(alertOptions, alertBodyChildren)
 
-        // replace the original blockquote with the 
+        // replace the original blockquote with the
         // new alert element and its children
         if (alertElement !== null) {
             parent.children[index] = alertElement
@@ -193,7 +195,6 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
 
 }
 
- 
 export const defaultBuild: DefaultBuildType = (alertOptions, originalChildren) => {
 
     let alertIconElement: Element | undefined
@@ -259,7 +260,7 @@ const extractHeaderData = (paragraph: Element): { alertType: string, rest: strin
 
     const header = paragraph.children[0]
     let alertType: string | undefined
-    let rest: string = ''
+    let rest = ''
 
     if (internalOptions.supportLegacy) {
 
@@ -275,9 +276,9 @@ const extractHeaderData = (paragraph: Element): { alertType: string, rest: strin
 
     if (header.type === 'text') {
 
-        const match = header.value.match(/\[!(.*?)\]/)
+        const match = (/\[!(.*?)\]/).exec(header.value)
 
-        if (match === null || typeof match.input === 'undefined') {
+        if (!match?.input) {
             return null
         }
 
