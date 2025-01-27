@@ -62,7 +62,7 @@ For a simple example have a look at the ["rehype example" README](./examples/sim
 
 ### Next.js tutorial
 
-I published a Next.js [Next.js MDX tutorial](https://chris.lu/web_development/tutorials/next-js-static-mdx-blog) on my blog, the tutorial has a page about [using the **rehype-github-alerts** plugin with **Next.js**](https://chris.lu/web_development/tutorials/next-js-static-mdx-blog/github-like-alerts-plugin)
+I published a Next.js [Next.js MDX tutorial](https://chris.lu/web_development/tutorials/next-js-static-first-mdx-starterkit) on my blog, the tutorial has a page about [using the **rehype-github-alerts** plugin with **Next.js**](https://chris.lu/web_development/tutorials/next-js-static-first-mdx-starterkit/github-like-alerts-plugin)
 
 ### Customized plugin Demo
 
