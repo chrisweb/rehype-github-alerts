@@ -62,22 +62,24 @@
         }
     },
     "devDependencies": {
-        "@eslint/eslintrc": "^3.2.0",
         "@eslint/js": "^9.19.0",
+        "@stylistic/eslint-plugin": "^3.0.0",
         "@types/hast": "^3.0.4",
-        "@typescript-eslint/eslint-plugin": "^8.21.0",
+        "@types/node": "^22.10.10",
         "c8": "^10.1.3",
         "create-gfm-fixtures": "^2.2.0",
         "dotenv": "^16.4.7",
         "esbuild": "^0.24.2",
-        "eslint": "9.19.0",
+        "eslint": "^9.19.0",
         "globals": "^15.14.0",
+        "jiti": "^2.4.2",
         "rehype-stringify": "^10.0.1",
         "remark-breaks": "^4.0.0",
         "remark-gfm": "^4.0.0",
         "remark-parse": "^11.0.0",
         "remark-rehype": "^11.1.1",
         "typescript": "^5.7.3",
+        "typescript-eslint": "^8.21.0",
         "unified": "^11.0.5"
     },
     "typeCoverage": {
