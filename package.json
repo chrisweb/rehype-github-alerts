@@ -1,13 +1,13 @@
 {
     "name": "rehype-github-alerts",
-    "version": "3.0.0",
+    "version": "4.0.0-beta.0",
     "description": "rehype plugin to create alerts (admonitions/callouts)",
     "main": "./dist/index.js",
     "scripts": {
-        "build": "esbuild ./src/index.ts --format=esm --target=es2022 --outdir=dist && npm run types",
-        "build-min": "esbuild ./src/index.ts --format=esm --bundle --minify --target=es2022 --outdir=dist && npm run types",
-        "lint": "npx eslint src/",
-        "lint-fix": "npx eslint src/ --fix",
+        "build": "npm run build-css && esbuild ./src/index.ts --format=esm --target=es2022 --outdir=dist && npm run types",
+        "build-css": "esbuild --bundle ./src/styling/css/index.css --outfile=dist/styling/css/index.css",
+        "lint": "eslint src/",
+        "lint-fix": "eslint src/ --fix",
         "types": "tsc --declaration --emitDeclarationOnly --declarationDir dist",
         "test": "npm run build && npm run test-coverage",
         "test-api": "node --conditions development test/index.js",
@@ -29,8 +29,11 @@
     ],
     "type": "module",
     "exports": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        },
+        "./styling/css/index.css": "./dist/styling/css/index.css"
     },
     "files": [
         "package*.json",
@@ -46,28 +49,43 @@
         "hast-util-is-element": "^3.0.0",
         "unist-util-visit": "^5.0.0"
     },
+    "peerDependencies": {
+        "@primer/octicons": "^19.14.0",
+        "@types/primer__octicons": "^19.11.0"
+    },
+    "peerDependenciesMeta": {
+        "@primer/octicons": {
+            "optional": true
+        },
+        "@types/primer__octicons": {
+            "optional": true
+        }
+    },
     "devDependencies": {
         "@eslint/eslintrc": "^3.2.0",
-        "@eslint/js": "^9.15.0",
+        "@eslint/js": "^9.17.0",
         "@types/hast": "^3.0.4",
-        "@typescript-eslint/eslint-plugin": "^8.14.0",
-        "c8": "^10.1.2",
+        "@typescript-eslint/eslint-plugin": "^8.19.1",
+        "c8": "^10.1.3",
         "create-gfm-fixtures": "^2.0.0",
-        "dotenv": "^16.4.5",
-        "esbuild": "^0.24.0",
-        "eslint": "9.14.0",
-        "globals": "^15.12.0",
+        "dotenv": "^16.4.7",
+        "esbuild": "^0.24.2",
+        "eslint": "9.17.0",
+        "globals": "^15.14.0",
         "rehype-stringify": "^10.0.1",
         "remark-breaks": "^4.0.0",
         "remark-gfm": "^4.0.0",
         "remark-parse": "^11.0.0",
         "remark-rehype": "^11.1.1",
-        "typescript": "^5.6.3",
+        "typescript": "^5.7.2",
         "unified": "^11.0.5"
     },
     "typeCoverage": {
         "atLeast": 100,
         "detail": true,
         "strict": true
+    },
+    "funding": {
+        "url": "https://github.com/sponsors/chrisweb"
     }
 }
