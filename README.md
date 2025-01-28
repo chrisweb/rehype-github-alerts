@@ -222,13 +222,41 @@ As noted in the readme of the [remark-breaks](https://github.com/remarkjs/remark
 
 ## paragraphs separation
 
-If you don't want a new line (1 `<br>` element) but also some space between two paragraphs (2 `<br>` elements), no matter if you have **remark-breaks** installed or not, then you need to add an empty line (same as you would do outside of a blockquote), like so:
+If in your markdown, you add two spaces at the end of a line, like this:
+
+```md
+> [!TIP]  
+> first paragraph  
+> second paragraph  
+```
+
+Then the resulting HTML will only have one paragraph, in which both parts of your text are separated by a `<br>` element:
+
+```html
+<div class="markdown-alert markdown-alert-tip">
+    <p class="markdown-alert-title">(...)</p>
+    <p>first paragraph<br>
+    second paragraph</p>
+</div>
+```
+
+To create two separate paragraphs (no matter if you are using **remark-breaks** or not) you need to add an empty line into your markdown (same as you would do outside of a blockquote), like so:
 
 ```md
 > [!TIP]  
 > first paragraph  
 >
 > second paragraph  
+```
+
+Which will result in the following HTML:
+
+```html
+<div class="markdown-alert markdown-alert-tip">
+    <p class="markdown-alert-title">(...)</p>
+    <p>first paragraph</p>
+    <p>second paragraph</p>
+</div>
 ```
 
 ## tests
@@ -371,39 +399,27 @@ const myRehypeGithubAlertsOptions = {
 }
 ```
 
-## TODOs
-
-- write more tests to reach a test coverage of 100%
-
-## bugs
+## bug reports / issues
 
 if you find a bug, please open an issue in the [rehype-github-alerts issues page on github](https://github.com/chrisweb/rehype-github-alerts/issues), try to describe the bug you encountered as best as you can and if possible add some examples of the markdown / mdx content or code that you used when you found the bug, I or a contributor will try to look into it asap
 
-## feedback
+## feedback / ideas
 
 If you have an idea to improve this project please use the ["NEW Feature Request"](https://github.com/chrisweb/rehype-github-alerts/issues/new/choose) issue template or if you have any feedback about this package you may want to post it in the [rehype discussion about this plugin](https://github.com/orgs/rehypejs/discussions/157)
 
 ## contributing
 
-PRs are welcome 😉
+PRs are always welcome 😉
 
 To get started, please check out the [CONTRIBUTING.md](CONTRIBUTING.md) guide of this project
 
-### alternatives
+## alternatives
 
 an alternative to this package if you want to have github like alerts but do it with a remark plugin instead of a rehype plugin is [remark-github-beta-blockquote-admonitions](https://www.npmjs.com/package/remark-github-beta-blockquote-admonitions)
 
-### optional packages
+## additional packages
 
 if you use this package, there are other packages you might want to install too, for example:
 
 - [remark-gfm](https://github.com/remarkjs/remark-gfm), adds support for [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/) (autolink literals, footnotes, strikethrough, tables, task lists)
 - [remark-breaks](https://github.com/remarkjs/remark-breaks), turns soft line endings (enters) into hard breaks (`<br>`s). GitHub does this in a few places (comments, issues, PRs, and releases)
-
-## icons
-
-the 5 icons used in this package are from ["Bootstrap Icons" repository](https://github.com/twbs/icons) and licensed under [MIT](https://github.com/twbs/icons/blob/main/LICENSE)
-
-## note to self
-
-Have downgraded eslint for now, ESLint [issue #19134](https://github.com/eslint/eslint/issues/19134) explains the problem and there is a [PR #10339](https://github.com/typescript-eslint/typescript-eslint/pull/10339) getting merged anytime soon
