@@ -73,23 +73,37 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
 
     // make sure the blockquote is not empty
     if (node.children.length < 1) {
-        return null
+        return [SKIP]
     }
 
     // find the first paragraph inside of the blockquote
     const firstParagraph = node.children.find((child) => {
-        return (isElement(child) && child.tagName === 'p')
+        return (
+            child.type === 'element' &&
+            child.tagName === 'p'
+        )
     })
 
-    // check if we found an the blockquote paragraph
+    // typescript type guard
+    // make sure the first paragraph is a valid element
     if (!isElement(firstParagraph)) {
-        return null
+        return [SKIP]
     }
+
+    console.log(node.children)
+    console.log(node.children.length)
 
     // try to find the alert type
     const headerData = extractHeaderData(firstParagraph)
 
+    // typescript type guard
     if (headerData === null) {
+        return [SKIP]
+    }
+
+    // make sure the blockquote contains more than
+    // just the alert type, this is to mimic GitHub
+    if (headerData.rest.trim() === '' && node.children.length < 4 && firstParagraph.children.length < 2) {
         return [SKIP]
     }
 
@@ -98,7 +112,7 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
     // GitHub does (as of now)
     if (headerData.rest.trim() !== '') {
         if (!headerData.rest.startsWith('\n') && !headerData.rest.startsWith('\r')) {
-            return null
+            return [SKIP]
         }
     }
 
@@ -109,86 +123,91 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
         return [SKIP]
     }
 
-    if (typeof parent !== 'undefined' && typeof index !== 'undefined') {
+    // make sure we have parent element
+    // or we won't be able to replace the blockquote
+    // with the new alert element
+    if (!parent || parent.type !== 'root' || typeof index !== 'number') {
+        return [SKIP]
+    }
 
-        // use a build to convert the blockquote into an alert
-        const build = internalOptions.build ?? defaultBuild
+    // use a build to convert the blockquote into an alert
+    const build = internalOptions.build ?? defaultBuild
 
-        const alertBodyChildren: ElementContent[] = []
+    const alertBodyChildren: ElementContent[] = []
 
-        // for alerts the blockquote first element is always
-        // a paragraph but it can have move children then just
-        // the alert type text node
-        const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length)
+    // for alerts the blockquote first element is always
+    // a paragraph but it can have more children then just
+    // the alert type text node
+    const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length)
 
-        const newFirstParagraphChildren: ElementContent[] = []
+    const newFirstParagraphChildren: ElementContent[] = []
 
-        if (remainingFirstParagraphChildren.length > 0) {
-            // if the alert type has a hard line break we remove it
-            // to not start the alert with a blank line
-            // meaning we start the slice at 2 to not take
-            // the br element and new line text nodes
-            if (
-                remainingFirstParagraphChildren[0].type === 'element' &&
-                remainingFirstParagraphChildren[0].tagName === 'br'
-            ) {
-                const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length)
-                newFirstParagraphChildren.push(...remainingChildrenWithoutLineBreak)
-            } else {
-                // if the first line of the blockquote has no hard line break
-                // after the alert type but some text, then both the type
-                // and the text will be in a single text node
-                // headerData rest contains the remaining text without the alert type
-                if (headerData.rest.trim() !== '') {
-                    const restAsTextNode: Text = {
-                        type: 'text',
-                        value: headerData.rest
-                    }
-                    remainingFirstParagraphChildren.unshift(restAsTextNode)
-                }
-                // if no hard line break (br) take all the remaining
-                // and add them to new paragraph to mimic the initial structure
-                newFirstParagraphChildren.push(...remainingFirstParagraphChildren)
-            }
+    if (remainingFirstParagraphChildren.length > 0) {
+        // if the alert type has a hard line break we remove it
+        // to not start the alert with a blank line
+        // meaning we start the slice at 2 to not take
+        // the br element and new line text nodes
+        if (
+            remainingFirstParagraphChildren[0].type === 'element' &&
+            remainingFirstParagraphChildren[0].tagName === 'br'
+        ) {
+            const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length)
+            newFirstParagraphChildren.push(...remainingChildrenWithoutLineBreak)
         } else {
+            // if the first line of the blockquote has no hard line break
+            // after the alert type but some text, then both the type
+            // and the text will be in a single text node
+            // headerData rest contains the remaining text without the alert type
             if (headerData.rest.trim() !== '') {
                 const restAsTextNode: Text = {
                     type: 'text',
                     value: headerData.rest
                 }
-                newFirstParagraphChildren.push(restAsTextNode)
+                remainingFirstParagraphChildren.unshift(restAsTextNode)
             }
+            // if no hard line break (br) take all the remaining
+            // and add them to new paragraph to mimic the initial structure
+            newFirstParagraphChildren.push(...remainingFirstParagraphChildren)
         }
-
-        if (newFirstParagraphChildren.length > 0) {
-            const lineBreak: Text = {
+    } else {
+        if (headerData.rest.trim() !== '') {
+            const restAsTextNode: Text = {
                 type: 'text',
-                value: '\n'
+                value: headerData.rest
             }
-            alertBodyChildren.push(lineBreak)
-            const paragraphElement: Element = {
-                type: 'element',
-                tagName: 'p',
-                properties: {},
-                children: newFirstParagraphChildren
-            }
-            alertBodyChildren.push(paragraphElement)
+            newFirstParagraphChildren.push(restAsTextNode)
         }
+    }
 
-        // outside of the first paragraph there may also be children
-        // we add them too back into the alert body
-        if (node.children.length > 2) {
-            alertBodyChildren.push(...node.children.slice(2, node.children.length))
+    if (newFirstParagraphChildren.length > 0) {
+        // I should revert this change
+        // as it makes testing a lot harder
+        const lineBreak: Text = {
+            type: 'text',
+            value: '\n'
         }
-
-        const alertElement = build(alertOptions, alertBodyChildren)
-
-        // replace the original blockquote with the
-        // new alert element and its children
-        if (alertElement !== null) {
-            parent.children[index] = alertElement
+        alertBodyChildren.push(lineBreak)
+        const paragraphElement: Element = {
+            type: 'element',
+            tagName: 'p',
+            properties: {},
+            children: newFirstParagraphChildren
         }
+        alertBodyChildren.push(paragraphElement)
+    }
 
+    // outside of the first paragraph there may also be children
+    // we add them too back into the alert body
+    if (node.children.length > 2) {
+        alertBodyChildren.push(...node.children.slice(2, node.children.length))
+    }
+
+    const alertElement = build(alertOptions, alertBodyChildren)
+
+    // replace the original blockquote with the
+    // new alert element and its children
+    if (alertElement !== null) {
+        parent.children[index] = alertElement
     }
 
     return [SKIP]

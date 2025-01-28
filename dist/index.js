@@ -47,76 +47,82 @@ const create = (node, index, parent) => {
     return [SKIP];
   }
   if (node.children.length < 1) {
-    return null;
+    return [SKIP];
   }
   const firstParagraph = node.children.find((child) => {
-    return isElement(child) && child.tagName === "p";
+    return child.type === "element" && child.tagName === "p";
   });
   if (!isElement(firstParagraph)) {
-    return null;
+    return [SKIP];
   }
+  console.log(node.children);
+  console.log(node.children.length);
   const headerData = extractHeaderData(firstParagraph);
   if (headerData === null) {
     return [SKIP];
   }
+  if (headerData.rest.trim() === "" && node.children.length < 4 && firstParagraph.children.length < 2) {
+    return [SKIP];
+  }
   if (headerData.rest.trim() !== "") {
     if (!headerData.rest.startsWith("\n") && !headerData.rest.startsWith("\r")) {
-      return null;
+      return [SKIP];
     }
   }
   const alertOptions = getAlertOptions(headerData.alertType);
   if (alertOptions === null) {
     return [SKIP];
   }
-  if (typeof parent !== "undefined" && typeof index !== "undefined") {
-    const build = internalOptions.build ?? defaultBuild;
-    const alertBodyChildren = [];
-    const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length);
-    const newFirstParagraphChildren = [];
-    if (remainingFirstParagraphChildren.length > 0) {
-      if (remainingFirstParagraphChildren[0].type === "element" && remainingFirstParagraphChildren[0].tagName === "br") {
-        const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length);
-        newFirstParagraphChildren.push(...remainingChildrenWithoutLineBreak);
-      } else {
-        if (headerData.rest.trim() !== "") {
-          const restAsTextNode = {
-            type: "text",
-            value: headerData.rest
-          };
-          remainingFirstParagraphChildren.unshift(restAsTextNode);
-        }
-        newFirstParagraphChildren.push(...remainingFirstParagraphChildren);
-      }
+  if (!parent || parent.type !== "root" || typeof index !== "number") {
+    return [SKIP];
+  }
+  const build = internalOptions.build ?? defaultBuild;
+  const alertBodyChildren = [];
+  const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length);
+  const newFirstParagraphChildren = [];
+  if (remainingFirstParagraphChildren.length > 0) {
+    if (remainingFirstParagraphChildren[0].type === "element" && remainingFirstParagraphChildren[0].tagName === "br") {
+      const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length);
+      newFirstParagraphChildren.push(...remainingChildrenWithoutLineBreak);
     } else {
       if (headerData.rest.trim() !== "") {
         const restAsTextNode = {
           type: "text",
           value: headerData.rest
         };
-        newFirstParagraphChildren.push(restAsTextNode);
+        remainingFirstParagraphChildren.unshift(restAsTextNode);
       }
+      newFirstParagraphChildren.push(...remainingFirstParagraphChildren);
     }
-    if (newFirstParagraphChildren.length > 0) {
-      const lineBreak = {
+  } else {
+    if (headerData.rest.trim() !== "") {
+      const restAsTextNode = {
         type: "text",
-        value: "\n"
+        value: headerData.rest
       };
-      alertBodyChildren.push(lineBreak);
-      const paragraphElement = {
-        type: "element",
-        tagName: "p",
-        properties: {},
-        children: newFirstParagraphChildren
-      };
-      alertBodyChildren.push(paragraphElement);
+      newFirstParagraphChildren.push(restAsTextNode);
     }
-    if (node.children.length > 2) {
-      alertBodyChildren.push(...node.children.slice(2, node.children.length));
-    }
-    const alertElement = build(alertOptions, alertBodyChildren);
-    if (alertElement !== null) {
-      parent.children[index] = alertElement;
-    }
+  }
+  if (newFirstParagraphChildren.length > 0) {
+    const lineBreak = {
+      type: "text",
+      value: "\n"
+    };
+    alertBodyChildren.push(lineBreak);
+    const paragraphElement = {
+      type: "element",
+      tagName: "p",
+      properties: {},
+      children: newFirstParagraphChildren
+    };
+    alertBodyChildren.push(paragraphElement);
+  }
+  if (node.children.length > 2) {
+    alertBodyChildren.push(...node.children.slice(2, node.children.length));
+  }
+  const alertElement = build(alertOptions, alertBodyChildren);
+  if (alertElement !== null) {
+    parent.children[index] = alertElement;
   }
   return [SKIP];
 };
