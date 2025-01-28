@@ -261,9 +261,11 @@ Which will result in the following HTML:
 
 ## tests
 
-I used the [test-runner that built in node.js](https://nodejs.org/api/test.html) to add some test for common cases
+For our tests we use the [test-runner that is built in node.js](https://nodejs.org/api/test.html)
 
 All tests are located in the `/test` directory
+
+### run tests
 
 To run the tests use the following command:
 
@@ -278,9 +280,12 @@ npm run test
 
 To create new fixtures, we use a the [create-gfm-fixtures](https://github.com/wooorm/create-gfm-fixtures) package, to be able to use this package locally you will need a **personal GitHub access token**, because the tool will create gists on GitHub, insert the markdown from the test into the gist file, then the tool will read the converted HTML from GitHub and finally create a fixture HTML file. The fixture HTML file can then be used to compare the fixture HTML with the HTML output that gets created by this plugin. If the HTML from GitHub and the HTML produced by this plugin match then the test will pass, else it will fail.
 
-To create a new token visit the GitHub ["New fine-grained personal access token"](https://github.com/settings/personal-access-tokens/new) page. There you need to create a new token, then under **Permissions** you need to set the **Gists** permission to read/write, then click on **Generate token** to create your new token. If you new to GitHub tokens, then you may want to check out the [GitHub documentation "Creating a fine-grained personal access token"](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token).
+To create a new token visit the GitHub ["New fine-grained personal access token"](https://github.com/settings/personal-access-tokens/new) page. There you need to create a new token, then under **Permissions** you need to set the **Gists** permission to read/write, then click on **Generate token** to create your new token.  
 
 When you have your token, make a copy of the `.env.example` and rename it to `.env`, then insert your token and save it
+
+> [!TIP]  
+>  if you new to GitHub tokens, then you may want to check out the [GitHub documentation "Creating a fine-grained personal access token"](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token)
 
 ## types
 
