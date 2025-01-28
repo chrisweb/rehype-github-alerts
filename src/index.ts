@@ -180,13 +180,6 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
     }
 
     if (newFirstParagraphChildren.length > 0) {
-        // I should revert this change
-        // as it makes testing a lot harder
-        const lineBreak: Text = {
-            type: 'text',
-            value: '\n'
-        }
-        alertBodyChildren.push(lineBreak)
         const paragraphElement: Element = {
             type: 'element',
             tagName: 'p',
