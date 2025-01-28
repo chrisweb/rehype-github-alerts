@@ -230,7 +230,7 @@ If in your markdown, you add two spaces at the end of a line, like this:
 > second paragraph  
 ```
 
-Then the resulting HTML will only have one paragraph, in which both parts of your text are separated by a `<br>` element:
+Then the resulting HTML will only have **one paragraph**, in which both parts of your text are separated by a `<br>` element:
 
 ```html
 <div class="markdown-alert markdown-alert-tip">
@@ -240,7 +240,7 @@ Then the resulting HTML will only have one paragraph, in which both parts of you
 </div>
 ```
 
-To create two separate paragraphs (no matter if you are using **remark-breaks** or not) you need to add an empty line into your markdown (same as you would do outside of a blockquote), like so:
+To create **two separate paragraphs** (no matter if you are using remark-breaks or not) you need to add an empty line into your markdown (same as you would do outside of a blockquote), like so:
 
 ```md
 > [!TIP]  
