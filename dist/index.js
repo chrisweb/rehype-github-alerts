@@ -55,13 +55,8 @@ const create = (node, index, parent) => {
   if (!isElement(firstParagraph)) {
     return [SKIP];
   }
-  console.log(node.children);
-  console.log(node.children.length);
   const headerData = extractHeaderData(firstParagraph);
   if (headerData === null) {
-    return [SKIP];
-  }
-  if (headerData.rest.trim() === "" && node.children.length < 4 && firstParagraph.children.length < 2) {
     return [SKIP];
   }
   if (headerData.rest.trim() !== "") {
@@ -80,35 +75,31 @@ const create = (node, index, parent) => {
   const alertBodyChildren = [];
   const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length);
   const newFirstParagraphChildren = [];
+  const rest = headerData.rest.replace(/^(\r\n|\r|\n)/, "");
   if (remainingFirstParagraphChildren.length > 0) {
     if (remainingFirstParagraphChildren[0].type === "element" && remainingFirstParagraphChildren[0].tagName === "br") {
       const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length);
       newFirstParagraphChildren.push(...remainingChildrenWithoutLineBreak);
     } else {
-      if (headerData.rest.trim() !== "") {
+      if (rest !== "") {
         const restAsTextNode = {
           type: "text",
-          value: headerData.rest
+          value: rest
         };
         remainingFirstParagraphChildren.unshift(restAsTextNode);
       }
       newFirstParagraphChildren.push(...remainingFirstParagraphChildren);
     }
   } else {
-    if (headerData.rest.trim() !== "") {
+    if (rest !== "") {
       const restAsTextNode = {
         type: "text",
-        value: headerData.rest
+        value: rest
       };
       newFirstParagraphChildren.push(restAsTextNode);
     }
   }
   if (newFirstParagraphChildren.length > 0) {
-    const lineBreak = {
-      type: "text",
-      value: "\n"
-    };
-    alertBodyChildren.push(lineBreak);
     const paragraphElement = {
       type: "element",
       tagName: "p",

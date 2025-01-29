@@ -90,9 +90,6 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
         return [SKIP]
     }
 
-    console.log(node.children)
-    console.log(node.children.length)
-
     // try to find the alert type
     const headerData = extractHeaderData(firstParagraph)
 
@@ -101,15 +98,9 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
         return [SKIP]
     }
 
-    // make sure the blockquote contains more than
-    // just the alert type, this is to mimic GitHub
-    if (headerData.rest.trim() === '' && node.children.length < 4 && firstParagraph.children.length < 2) {
-        return [SKIP]
-    }
-
     // if the first line contains more than the type
     // drop out of rendering as alert, this is what
-    // GitHub does (as of now)
+    // GitHub does (as of now in Mar. 2024)
     if (headerData.rest.trim() !== '') {
         if (!headerData.rest.startsWith('\n') && !headerData.rest.startsWith('\r')) {
             return [SKIP]
@@ -136,11 +127,14 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
     const alertBodyChildren: ElementContent[] = []
 
     // for alerts the blockquote first element is always
-    // a paragraph but it can have more children then just
+    // a paragraph but it can have more children than just
     // the alert type text node
     const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length)
 
     const newFirstParagraphChildren: ElementContent[] = []
+
+    // remove the first line break from rest if there is one
+    const rest = headerData.rest.replace(/^(\r\n|\r|\n)/, '')
 
     if (remainingFirstParagraphChildren.length > 0) {
         // if the alert type has a hard line break we remove it
@@ -158,10 +152,10 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
             // after the alert type but some text, then both the type
             // and the text will be in a single text node
             // headerData rest contains the remaining text without the alert type
-            if (headerData.rest.trim() !== '') {
+            if (rest !== '') {
                 const restAsTextNode: Text = {
                     type: 'text',
-                    value: headerData.rest
+                    value: rest
                 }
                 remainingFirstParagraphChildren.unshift(restAsTextNode)
             }
@@ -170,10 +164,10 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
             newFirstParagraphChildren.push(...remainingFirstParagraphChildren)
         }
     } else {
-        if (headerData.rest.trim() !== '') {
+        if (rest !== '') {
             const restAsTextNode: Text = {
                 type: 'text',
-                value: headerData.rest
+                value: rest
             }
             newFirstParagraphChildren.push(restAsTextNode)
         }
