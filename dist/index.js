@@ -76,9 +76,6 @@ const create = (node, index, parent) => {
   const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length);
   const newFirstParagraphChildren = [];
   const rest = headerData.rest.replace(/^(\r\n|\r|\n)/, "");
-  console.log("rest: ", rest);
-  console.log("remainingFirstParagraphChildren.length: ", remainingFirstParagraphChildren.length);
-  console.log("node.children.length: ", node.children.length);
   if (rest === "" && remainingFirstParagraphChildren.length === 0 && node.children.length < 4) {
     return [SKIP];
   }
