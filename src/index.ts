@@ -23,35 +23,35 @@ let internalOptions: IOptions
 export const rehypeGithubAlerts = (options: IOptions) => {
 
     const defaultOptions: IOptions = {
-        // icons license: https://github.com/microsoft/vscode-codicons/blob/main/LICENSE
+        supportLegacy: false,
+        // octicons docs: https://github.com/primer/octicons/tree/main/lib/octicons_node
         alerts: [
             {
                 keyword: 'NOTE',
-                icon: `<svg class="octicon octicon-${octicons['info'].symbol} mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['info'].heights[16]?.path}</svg>`,
+                icon: `<svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['info'].heights[16]?.path}</svg>`,
                 title: 'Note',
             },
             {
                 keyword: 'IMPORTANT',
-                icon: `<svg class="octicon octicon-${octicons['report'].symbol} mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['report'].heights[16]?.path}</svg>`,
+                icon: `<svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['report'].heights[16]?.path}</svg>`,
                 title: 'Important',
             },
             {
                 keyword: 'WARNING',
-                icon: `<svg class="octicon octicon-${octicons['alert'].symbol} mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['alert'].heights[16]?.path}</svg>`,
+                icon: `<svg class="octicon octicon-alert mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['alert'].heights[16]?.path}</svg>`,
                 title: 'Warning',
             },
             {
                 keyword: 'TIP',
-                icon: `<svg class="octicon octicon-${octicons['light-bulb'].symbol} mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['light-bulb'].heights[16]?.path}</svg>`,
+                icon: `<svg class="octicon octicon-light-bulb mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['light-bulb'].heights[16]?.path}</svg>`,
                 title: 'Tip',
             },
             {
                 keyword: 'CAUTION',
-                icon: `<svg class="octicon octicon-${octicons['stop'].symbol} mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['stop'].heights[16]?.path}</svg>`,
+                icon: `<svg class="octicon octicon-stop mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['stop'].heights[16]?.path}</svg>`,
                 title: 'Caution',
             },
         ],
-        supportLegacy: false,
     }
 
     internalOptions = Object.assign({}, defaultOptions, options)
