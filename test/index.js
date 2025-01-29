@@ -23,6 +23,14 @@ await createGfmFixtures(new URL('fixtures/', import.meta.url))
 // the twbs-icons fixtures are not created automatically
 // as they are custom icons
 
+// test the module
+await test('should expose the public api', async function () {
+    assert.deepEqual(Object.keys(await import('rehype-github-alerts')).sort(), [
+        'defaultBuild',
+        'rehypeGithubAlerts',
+    ])
+})
+
 await runTests('fixtures')
 await runTests('legacy_fixtures', true)
 await runTests('twbs-icons_fixtures', false, true)
