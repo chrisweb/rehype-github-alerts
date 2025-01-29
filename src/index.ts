@@ -100,7 +100,7 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
 
     // if the first line contains more than the type
     // drop out of rendering as alert, this is what
-    // GitHub does (as of now in Mar. 2024)
+    // GitHub does (as of Mar. 2024)
     if (headerData.rest.trim() !== '') {
         if (!headerData.rest.startsWith('\n') && !headerData.rest.startsWith('\r')) {
             return [SKIP]
@@ -135,6 +135,14 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
 
     // remove the first line break from rest if there is one
     const rest = headerData.rest.replace(/^(\r\n|\r|\n)/, '')
+
+    // if the rest is empty and the first paragraph has no children
+    // this is a special github case (as of Mar. 2024)
+    // where the alert is only the type (no alert body)
+    // in this case github keeps the original blockquote
+    if (rest === '' && remainingFirstParagraphChildren.length === 0 && node.children.length < 4) {
+        return [SKIP]
+    }
 
     if (remainingFirstParagraphChildren.length > 0) {
         // if the alert type has a hard line break we remove it

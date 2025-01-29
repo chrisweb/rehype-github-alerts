@@ -76,6 +76,12 @@ const create = (node, index, parent) => {
   const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length);
   const newFirstParagraphChildren = [];
   const rest = headerData.rest.replace(/^(\r\n|\r|\n)/, "");
+  console.log("rest: ", rest);
+  console.log("remainingFirstParagraphChildren.length: ", remainingFirstParagraphChildren.length);
+  console.log("node.children.length: ", node.children.length);
+  if (rest === "" && remainingFirstParagraphChildren.length === 0 && node.children.length < 4) {
+    return [SKIP];
+  }
   if (remainingFirstParagraphChildren.length > 0) {
     if (remainingFirstParagraphChildren[0].type === "element" && remainingFirstParagraphChildren[0].tagName === "br") {
       const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length);
