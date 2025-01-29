@@ -27,27 +27,27 @@ export const rehypeGithubAlerts = (options: IOptions) => {
         alerts: [
             {
                 keyword: 'NOTE',
-                icon: octicons.info.toSVG(),
+                icon: `<svg class="octicon octicon-${octicons['info'].symbol} mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['info'].heights[16]?.path}</svg>`,
                 title: 'Note',
             },
             {
                 keyword: 'IMPORTANT',
-                icon: octicons.report.toSVG(),
+                icon: `<svg class="octicon octicon-${octicons['report'].symbol} mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['report'].heights[16]?.path}</svg>`,
                 title: 'Important',
             },
             {
                 keyword: 'WARNING',
-                icon: octicons.alert.toSVG(),
+                icon: `<svg class="octicon octicon-${octicons['alert'].symbol} mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['alert'].heights[16]?.path}</svg>`,
                 title: 'Warning',
             },
             {
                 keyword: 'TIP',
-                icon: octicons['light-bulb'].toSVG(),
+                icon: `<svg class="octicon octicon-${octicons['light-bulb'].symbol} mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['light-bulb'].heights[16]?.path}</svg>`,
                 title: 'Tip',
             },
             {
                 keyword: 'CAUTION',
-                icon: octicons.stop.toSVG(),
+                icon: `<svg class="octicon octicon-${octicons['stop'].symbol} mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons['stop'].heights[16]?.path}</svg>`,
                 title: 'Caution',
             },
         ],
