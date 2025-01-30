@@ -68,7 +68,7 @@ const create = (node, index, parent) => {
   if (alertOptions === null) {
     return [SKIP];
   }
-  if (!parent || parent.type !== "root" || typeof index !== "number") {
+  if (!parent || typeof index !== "number") {
     return [SKIP];
   }
   const build = internalOptions.build ?? defaultBuild;

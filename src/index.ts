@@ -114,10 +114,10 @@ const create = (node: Element, index: number | undefined, parent: Parent | undef
         return [SKIP]
     }
 
-    // make sure we have parent element
+    // make sure we have parent element and an index
     // or we won't be able to replace the blockquote
     // with the new alert element
-    if (!parent || parent.type !== 'root' || typeof index !== 'number') {
+    if (!parent || typeof index !== 'number') {
         return [SKIP]
     }
 
