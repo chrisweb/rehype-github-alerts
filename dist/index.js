@@ -5,35 +5,35 @@ import octicons from "@primer/octicons";
 let internalOptions;
 const rehypeGithubAlerts = (options) => {
   const defaultOptions = {
-    // icons license: https://github.com/microsoft/vscode-codicons/blob/main/LICENSE
+    supportLegacy: false,
+    // octicons docs: https://github.com/primer/octicons/tree/main/lib/octicons_node
     alerts: [
       {
         keyword: "NOTE",
-        icon: octicons.info.toSVG(),
+        icon: `<svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons["info"].heights[16]?.path}</svg>`,
         title: "Note"
       },
       {
         keyword: "IMPORTANT",
-        icon: octicons.report.toSVG(),
+        icon: `<svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons["report"].heights[16]?.path}</svg>`,
         title: "Important"
       },
       {
         keyword: "WARNING",
-        icon: octicons.alert.toSVG(),
+        icon: `<svg class="octicon octicon-alert mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons["alert"].heights[16]?.path}</svg>`,
         title: "Warning"
       },
       {
         keyword: "TIP",
-        icon: octicons["light-bulb"].toSVG(),
+        icon: `<svg class="octicon octicon-light-bulb mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons["light-bulb"].heights[16]?.path}</svg>`,
         title: "Tip"
       },
       {
         keyword: "CAUTION",
-        icon: octicons.stop.toSVG(),
+        icon: `<svg class="octicon octicon-stop mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons["stop"].heights[16]?.path}</svg>`,
         title: "Caution"
       }
-    ],
-    supportLegacy: false
+    ]
   };
   internalOptions = Object.assign({}, defaultOptions, options);
   return (tree) => {
@@ -47,13 +47,13 @@ const create = (node, index, parent) => {
     return [SKIP];
   }
   if (node.children.length < 1) {
-    return null;
+    return [SKIP];
   }
   const firstParagraph = node.children.find((child) => {
-    return isElement(child) && child.tagName === "p";
+    return child.type === "element" && child.tagName === "p";
   });
   if (!isElement(firstParagraph)) {
-    return null;
+    return [SKIP];
   }
   const headerData = extractHeaderData(firstParagraph);
   if (headerData === null) {
@@ -61,62 +61,62 @@ const create = (node, index, parent) => {
   }
   if (headerData.rest.trim() !== "") {
     if (!headerData.rest.startsWith("\n") && !headerData.rest.startsWith("\r")) {
-      return null;
+      return [SKIP];
     }
   }
   const alertOptions = getAlertOptions(headerData.alertType);
   if (alertOptions === null) {
     return [SKIP];
   }
-  if (typeof parent !== "undefined" && typeof index !== "undefined") {
-    const build = internalOptions.build ?? defaultBuild;
-    const alertBodyChildren = [];
-    const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length);
-    const newFirstParagraphChildren = [];
-    if (remainingFirstParagraphChildren.length > 0) {
-      if (remainingFirstParagraphChildren[0].type === "element" && remainingFirstParagraphChildren[0].tagName === "br") {
-        const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length);
-        newFirstParagraphChildren.push(...remainingChildrenWithoutLineBreak);
-      } else {
-        if (headerData.rest.trim() !== "") {
-          const restAsTextNode = {
-            type: "text",
-            value: headerData.rest
-          };
-          remainingFirstParagraphChildren.unshift(restAsTextNode);
-        }
-        newFirstParagraphChildren.push(...remainingFirstParagraphChildren);
-      }
+  if (!parent || typeof index !== "number") {
+    return [SKIP];
+  }
+  const build = internalOptions.build ?? defaultBuild;
+  const alertBodyChildren = [];
+  const remainingFirstParagraphChildren = firstParagraph.children.slice(1, firstParagraph.children.length);
+  const newFirstParagraphChildren = [];
+  const rest = headerData.rest.replace(/^(\r\n|\r|\n)/, "");
+  if (rest === "" && remainingFirstParagraphChildren.length === 0 && node.children.length < 4) {
+    return [SKIP];
+  }
+  if (remainingFirstParagraphChildren.length > 0) {
+    if (remainingFirstParagraphChildren[0].type === "element" && remainingFirstParagraphChildren[0].tagName === "br") {
+      const remainingChildrenWithoutLineBreak = remainingFirstParagraphChildren.slice(2, firstParagraph.children.length);
+      newFirstParagraphChildren.push(...remainingChildrenWithoutLineBreak);
     } else {
-      if (headerData.rest.trim() !== "") {
+      if (rest !== "") {
         const restAsTextNode = {
           type: "text",
-          value: headerData.rest
+          value: rest
         };
-        newFirstParagraphChildren.push(restAsTextNode);
+        remainingFirstParagraphChildren.unshift(restAsTextNode);
       }
+      newFirstParagraphChildren.push(...remainingFirstParagraphChildren);
     }
-    if (newFirstParagraphChildren.length > 0) {
-      const lineBreak = {
+  } else {
+    if (rest !== "") {
+      const restAsTextNode = {
         type: "text",
-        value: "\n"
+        value: rest
       };
-      alertBodyChildren.push(lineBreak);
-      const paragraphElement = {
-        type: "element",
-        tagName: "p",
-        properties: {},
-        children: newFirstParagraphChildren
-      };
-      alertBodyChildren.push(paragraphElement);
+      newFirstParagraphChildren.push(restAsTextNode);
     }
-    if (node.children.length > 2) {
-      alertBodyChildren.push(...node.children.slice(2, node.children.length));
-    }
-    const alertElement = build(alertOptions, alertBodyChildren);
-    if (alertElement !== null) {
-      parent.children[index] = alertElement;
-    }
+  }
+  if (newFirstParagraphChildren.length > 0) {
+    const paragraphElement = {
+      type: "element",
+      tagName: "p",
+      properties: {},
+      children: newFirstParagraphChildren
+    };
+    alertBodyChildren.push(paragraphElement);
+  }
+  if (node.children.length > 2) {
+    alertBodyChildren.push(...node.children.slice(2, node.children.length));
+  }
+  const alertElement = build(alertOptions, alertBodyChildren);
+  if (alertElement !== null) {
+    parent.children[index] = alertElement;
   }
   return [SKIP];
 };

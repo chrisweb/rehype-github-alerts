@@ -78,7 +78,7 @@ const stylisticConfig = [
             // custom rules
             // https://github.com/typescript-eslint/typescript-eslint/issues/1824
             '@stylistic/indent': ['warn', 4],
-            '@stylistic/quotes': ['warn', 'single', { avoidEscape: true }],
+            '@stylistic/quotes': ['warn', 'single', { avoidEscape: true, allowStringLiterals: true }],
             '@stylistic/semi': ['warn', 'never'],
             '@stylistic/eol-last': 'off',
             '@stylistic/comma-dangle': ['warn', 'only-multiline'],
