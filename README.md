@@ -41,17 +41,14 @@ the markdown syntax for the 5 examples above is as follows:
 > Negative potential consequences of an action.
 ```
 
-this is a zero configuration package as all [options](#options) have defaults, but you can use them if you wish to modify default behavior, like for example by default 3 alerts are defined (with a default icon), use `options.alerts` to replace them with your own setup, there is also a default build that will create an output that mimics what GitHub does, but you can change the build to create whatever HTML suits your needs best, check out the ["options" chapter](#options) to learn more about customization
+this is a zero configuration package as all [options](#options) have defaults, but you can use them if you wish to modify default behavior, like for example by default 5 alerts are defined (with a default icon for each), use `options.alerts` to replace them with your own setup, there is also a default build that will create an HTML output that mimics what GitHub does, but you can change the build to create whatever HTML suits your needs best, check out the ["options" chapter](#options) to learn more about customization
 
 ## installation
 
-> [!NOTE]  
-> The [GitHub Primer Octicons](https://primer.style/foundations/icons/) are an external dependency that is optional (as well as the octicons types).
-
-To install rehype-github-alerts and also the octicons, use the following command:
+To install rehype-github-alerts:
 
 ```shell
-npm i rehype-github-alerts@latest @primer/octicons@latest --save-exact
+npm i rehype-github-alerts --save-exact
 ```
 
 ## examples
@@ -101,7 +98,7 @@ If you prefer using other icons like the [twbs icons](https://icons.getbootstrap
 all options have default values which for most use cases should be enough, meaning there is zero configuration to do, unless you want to customize something
 
 - `alerts` (`IAlert[]`)
-- `supportLegacy` (`boolean`, default: true)
+- `supportLegacy` (`boolean`, default: false)
 - `build` (`DefaultBuildType`)
 
 ### build option
@@ -199,6 +196,8 @@ alerts: [
 ],
 ```
 
+> [!TIP]  
+> you are not limited to using the [twbs icons](https://icons.getbootstrap.com/), you could for example use the [Font Awesome icons](https://fontawesome.com/icons) or the [Material Symbols icons (google font)](https://fonts.google.com/icons) instead
 
 ## about "soft line breaks" support
 
