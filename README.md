@@ -197,7 +197,7 @@ alerts: [
 ```
 
 > [!TIP]  
-> you are not limited to using the [twbs icons](https://icons.getbootstrap.com/), you could for example use the [Font Awesome icons](https://fontawesome.com/icons) or the [Material Symbols icons (google font)](https://fonts.google.com/icons) instead
+> you are not limited to using the [twbs icons](https://icons.getbootstrap.com/), if you prefer you could use the [lucide icons](https://lucide.dev/packages) or the [Material Symbols icons (google font)](https://fonts.google.com/icons)
 
 ## about "soft line breaks" support
 
