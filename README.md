@@ -424,7 +424,9 @@ To get started, please check out the [CONTRIBUTING.md](CONTRIBUTING.md) guide of
 
 ## alternatives
 
-an alternative to this package if you want to have github like alerts but do it with a remark plugin instead of a rehype plugin is [remark-github-beta-blockquote-admonitions](https://www.npmjs.com/package/remark-github-beta-blockquote-admonitions)
+* One alternative to this package if you want to have github like alerts but do it with a **remark plugin** instead of a **rehype plugin** is [remark-github-beta-blockquote-admonitions](https://www.npmjs.com/package/remark-github-beta-blockquote-admonitions)  
+* Another alternative is to use the [rehype-github-alert](https://www.npmjs.com/package/rehype-github-alert) (the name is similar to this plugin but minus the "s"), it is the official package from the [rehype-github](https://github.com/rehypejs/rehype-github) repository  
+* A different approach is being used in [rehype-callouts](https://github.com/lin-stephanie/rehype-callouts), which is NOT about mimicking GitHub (even though the blockquote usage is similar) but the package has nice features like nestable callouts and also custom callout titles  
 
 ## additional packages
 
