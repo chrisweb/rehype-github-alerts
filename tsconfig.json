@@ -1,6 +1,7 @@
 {
     "include": [
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "eslint.config.ts"
     ],
     "exclude": [
         "node_modules"
