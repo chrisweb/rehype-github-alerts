@@ -10,27 +10,27 @@ const rehypeGithubAlerts = (options) => {
     alerts: [
       {
         keyword: "NOTE",
-        icon: `<svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons["info"].heights[16]?.path}</svg>`,
+        icon: `<svg class="octicon octicon-info mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${String(octicons["info"].heights[16]?.path)}</svg>`,
         title: "Note"
       },
       {
         keyword: "IMPORTANT",
-        icon: `<svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons["report"].heights[16]?.path}</svg>`,
+        icon: `<svg class="octicon octicon-report mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${String(octicons["report"].heights[16]?.path)}</svg>`,
         title: "Important"
       },
       {
         keyword: "WARNING",
-        icon: `<svg class="octicon octicon-alert mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons["alert"].heights[16]?.path}</svg>`,
+        icon: `<svg class="octicon octicon-alert mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${String(octicons["alert"].heights[16]?.path)}</svg>`,
         title: "Warning"
       },
       {
         keyword: "TIP",
-        icon: `<svg class="octicon octicon-light-bulb mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons["light-bulb"].heights[16]?.path}</svg>`,
+        icon: `<svg class="octicon octicon-light-bulb mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${String(octicons["light-bulb"].heights[16]?.path)}</svg>`,
         title: "Tip"
       },
       {
         keyword: "CAUTION",
-        icon: `<svg class="octicon octicon-stop mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${octicons["stop"].heights[16]?.path}</svg>`,
+        icon: `<svg class="octicon octicon-stop mr-2" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">${String(octicons["stop"].heights[16]?.path)}</svg>`,
         title: "Caution"
       }
     ]
@@ -198,7 +198,7 @@ const getAlertOptions = (alertType) => {
   const alertOptions = internalOptions.alerts.find((alert) => {
     return alertType.toUpperCase() === alert.keyword.toUpperCase();
   });
-  return alertOptions ? alertOptions : null;
+  return alertOptions ?? null;
 };
 export {
   defaultBuild,
