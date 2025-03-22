@@ -74,11 +74,11 @@ const stylisticConfig = [
             // this removes all legacy rules from eslint, typescript-eslint and react
             ...stylisticPlugin.configs['disable-legacy'].rules,
             // this adds the recommended rules from stylistic
-            ...stylisticPlugin.configs['recommended-flat'].rules,
+            ...stylisticPlugin.configs['recommended'].rules,
             // custom rules
             // https://github.com/typescript-eslint/typescript-eslint/issues/1824
             '@stylistic/indent': ['warn', 4],
-            '@stylistic/quotes': ['warn', 'single', { avoidEscape: true, allowStringLiterals: true }],
+            '@stylistic/quotes': ['warn', 'single', { avoidEscape: true, allowTemplateLiterals: true }],
             '@stylistic/semi': ['warn', 'never'],
             '@stylistic/eol-last': 'off',
             '@stylistic/comma-dangle': ['warn', 'only-multiline'],
@@ -90,6 +90,7 @@ const stylisticConfig = [
             '@stylistic/operator-linebreak': ['warn', 'after'],
             '@stylistic/no-multiple-empty-lines': ['warn'],
             '@stylistic/no-trailing-spaces': ['warn'],
+            '@typescript-eslint/dot-notation': 'off',
         },
     }
 ]
