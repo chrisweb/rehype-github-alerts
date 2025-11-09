@@ -195,7 +195,7 @@ const extractHeaderData = (paragraph) => {
   return { alertType, rest };
 };
 const getAlertOptions = (alertType) => {
-  const alertOptions = internalOptions.alerts?.find((alert) => {
+  const alertOptions = internalOptions.alerts.find((alert) => {
     return alertType.toUpperCase() === alert.keyword.toUpperCase();
   });
   return alertOptions ?? null;
