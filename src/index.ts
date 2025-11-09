@@ -13,7 +13,7 @@ export interface IAlert {
 export type DefaultBuildType = (alertOptions: IAlert, originalChildren: ElementContent[]) => ElementContent | null
 
 export interface IOptions {
-    alerts: IAlert[]
+    alerts?: IAlert[]
     supportLegacy?: boolean
     build?: DefaultBuildType
 }
@@ -318,7 +318,7 @@ const extractHeaderData = (paragraph: Element): { alertType: string, rest: strin
 
 const getAlertOptions = (alertType: string): IAlert | null => {
 
-    const alertOptions = internalOptions.alerts.find((alert) => {
+    const alertOptions = internalOptions.alerts?.find((alert) => {
         return alertType.toUpperCase() === alert.keyword.toUpperCase()
     })
 
