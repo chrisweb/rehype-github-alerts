@@ -18,7 +18,11 @@ export interface IOptions {
     build?: DefaultBuildType
 }
 
-let internalOptions: IOptions
+interface IInternalOptions extends IOptions {
+    alerts: IAlert[]
+}
+
+let internalOptions: IInternalOptions
 
 export const rehypeGithubAlerts = (options: IOptions) => {
 
@@ -54,7 +58,7 @@ export const rehypeGithubAlerts = (options: IOptions) => {
         ],
     }
 
-    internalOptions = Object.assign({}, defaultOptions, options)
+    internalOptions = Object.assign({}, defaultOptions, options) as IInternalOptions
 
     return (tree: Root) => {
         visit(tree, 'element', (node, index, parent) => {
@@ -318,7 +322,7 @@ const extractHeaderData = (paragraph: Element): { alertType: string, rest: strin
 
 const getAlertOptions = (alertType: string): IAlert | null => {
 
-    const alertOptions = internalOptions.alerts?.find((alert) => {
+    const alertOptions = internalOptions.alerts.find((alert) => {
         return alertType.toUpperCase() === alert.keyword.toUpperCase()
     })
 
