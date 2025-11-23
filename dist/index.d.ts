@@ -6,7 +6,7 @@ export interface IAlert {
 }
 export type DefaultBuildType = (alertOptions: IAlert, originalChildren: ElementContent[]) => ElementContent | null;
 export interface IOptions {
-    alerts: IAlert[];
+    alerts?: IAlert[];
     supportLegacy?: boolean;
     build?: DefaultBuildType;
 }

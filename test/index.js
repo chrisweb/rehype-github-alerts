@@ -35,6 +35,177 @@ await runTests('fixtures')
 await runTests('legacy_fixtures', true)
 await runTests('twbs-icons_fixtures', false, true)
 
+// test with Element icon instead of string
+await test('should handle Element icon object', async function () {
+    const iconElement = {
+        type: 'element',
+        tagName: 'svg',
+        properties: { className: ['custom-icon'] },
+        children: [{
+            type: 'element',
+            tagName: 'path',
+            properties: { d: 'M0 0' },
+            children: []
+        }]
+    }
+
+    const processor = unified()
+        .use(remarkParse)
+        .use(remarkGfm)
+        .use(remarkRehype)
+        .use(rehypeGithubAlerts, {
+            alerts: [{
+                keyword: 'NOTE',
+                icon: iconElement,
+                title: 'Note'
+            }]
+        })
+        .use(rehypeStringify)
+
+    const input = '> [!NOTE]\n> Test content'
+    const actual = String(await processor.process(input))
+    
+    assert.ok(actual.includes('custom-icon'), 'should use Element icon')
+    assert.ok(actual.includes('markdown-alert'), 'should create alert')
+})
+
+// test with invalid icon HTML
+await test('should handle invalid icon HTML gracefully', async function () {
+    const processor = unified()
+        .use(remarkParse)
+        .use(remarkGfm)
+        .use(remarkRehype)
+        .use(rehypeGithubAlerts, {
+            alerts: [{
+                keyword: 'NOTE',
+                icon: '',  // Empty string - will result in undefined alertIconElement
+                title: 'Note'
+            }]
+        })
+        .use(rehypeStringify)
+
+    const input = '> [!NOTE]\n> Test content'
+    const actual = String(await processor.process(input))
+    
+    // Should keep original blockquote when icon parsing fails
+    assert.ok(actual.includes('<blockquote>'), 'should keep blockquote when icon fails')
+})
+
+// test with custom build function returning null
+await test('should handle custom build returning null', async function () {
+    const processor = unified()
+        .use(remarkParse)
+        .use(remarkGfm)
+        .use(remarkRehype)
+        .use(rehypeGithubAlerts, {
+            build: () => null  // Custom build that returns null
+        })
+        .use(rehypeStringify)
+
+    const input = '> [!NOTE]\n> Test content'
+    const actual = String(await processor.process(input))
+    
+    // Original blockquote should be preserved when build returns null
+    assert.ok(actual.includes('<blockquote>'), 'should keep blockquote when build returns null')
+})
+
+// test legacy format with non-text child in strong tag
+await test('should handle legacy format edge cases', async function () {
+    const processor = unified()
+        .use(remarkParse)
+        .use(remarkGfm)
+        .use(remarkRehype)
+        .use(rehypeGithubAlerts, {
+            supportLegacy: true,
+            alerts: [{
+                keyword: 'NOTE',
+                icon: '<svg class="icon"></svg>',
+                title: 'Note'
+            }]
+        })
+        .use(rehypeStringify)
+
+    // This creates a strong tag without text child (edge case for extractHeaderData)
+    const input = '> **\n> Content'
+    const actual = String(await processor.process(input))
+    
+    // Should keep blockquote when extractHeaderData returns null
+    assert.ok(actual.includes('<blockquote>'), 'should keep blockquote for invalid legacy format')
+})
+
+// test with manually created tree to trigger edge cases
+await test('should handle edge case with empty blockquote children', async function () {
+    const { rehypeGithubAlerts } = await import('rehype-github-alerts')
+    const plugin = rehypeGithubAlerts()
+    
+    // Create a tree with an empty blockquote
+    const tree = {
+        type: 'root',
+        children: [
+            {
+                type: 'element',
+                tagName: 'blockquote',
+                properties: {},
+                children: []  // Empty children array
+            }
+        ]
+    }
+    
+    // This should not throw and should skip the empty blockquote
+    plugin(tree)
+    
+    assert.equal(tree.children[0].tagName, 'blockquote', 'empty blockquote should remain unchanged')
+})
+
+// test with manually created tree for paragraph with strong but no text in legacy mode
+await test('should handle legacy strong tag without text child', async function () {
+    const { rehypeGithubAlerts } = await import('rehype-github-alerts')
+    const plugin = rehypeGithubAlerts({ supportLegacy: true })
+    
+    // Create a tree with a blockquote containing a paragraph with strong tag but no text
+    const tree = {
+        type: 'root',
+        children: [
+            {
+                type: 'element',
+                tagName: 'blockquote',
+                properties: {},
+                children: [
+                    {
+                        type: 'text',
+                        value: '\n'
+                    },
+                    {
+                        type: 'element',
+                        tagName: 'p',
+                        properties: {},
+                        children: [
+                            {
+                                type: 'element',
+                                tagName: 'strong',
+                                properties: {},
+                                children: [
+                                    {
+                                        type: 'element',  // Not a text node
+                                        tagName: 'em',
+                                        properties: {},
+                                        children: []
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+    
+    // This should trigger the alertType === undefined check
+    plugin(tree)
+    
+    assert.equal(tree.children[0].tagName, 'blockquote', 'blockquote should remain when strong has no text child')
+})
+
 async function runTests(fixture, supportLegacy = false, twbsIcons = false) {
 
     const path = new URL(fixture + '/', import.meta.url)
