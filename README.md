@@ -78,10 +78,10 @@ You can either open the file and copy what you need and paste it into your own C
 Or you could import the stylesheet in a Next.js layout file like this:
 
 ```js
-import '@/node_modules/rehype-github-alerts/dist/styling/css/index.css'
+import 'rehype-github-alerts/styling/css/index.css'
 ```
 
-There is an example in the layout file of the [Next.js MDX starterkit](https://github.com/chrisweb/next-js-static-first-mdx-starterkit_tutorial_chris.lu/blob/92500597d8152910aabec0bf9ea56477dca3e1b0/app/layout.tsx) repository
+There is an example in the layout file of the [Next.js MDX starterkit](https://github.com/chrisweb/next-js-static-first-mdx-starterkit_tutorial_chris.lu/blob/97143cac2d36a857f23fd65da114db4f19cdf532/app/layout.tsx) repository
 
 Another option is to use the [webpack CSS loader](https://www.npmjs.com/package/css-loader) to include the css file into your builds
 
